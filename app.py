@@ -20,6 +20,9 @@ class Event(db.Model):
     def __repr__(self):
         return f'Event {self.eventName}'
 
+with app.app_context():
+    db.create_all()
+
 # 라우트
 @app.route('/')
 def home():
@@ -28,6 +31,3 @@ def home():
 @app.route('/upload')
 def upload():
     return render_template('upload.html')
-
-with app.app_context():
-    db.create_all()
