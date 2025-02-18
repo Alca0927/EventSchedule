@@ -10,7 +10,37 @@
 
     </header>
     <section>
-        
+        <div>
+            <form id="uploadForm" action="/upload/new" method="POST">
+                <div>
+                    <label>행사 이름:</label>
+                    <input type="text" id="eventName" name="eventName" required>
+                </div>
+                <div>
+                    <label>행사 시작일:</label>
+                    <input type="text" id="startDate" name="startDate" required>
+                </div>
+                <div>
+                    <label>행사 종료일:</label>
+                    <input type="text" id="endDate" name="endDate" required>
+                </div>
+                <div>
+                    <label>행사 장소:</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+                <div>
+                    <label>행사 장소:</label>
+                    <textarea type="textarea" id="explain" name="explain" required></textarea>
+                </div>
+                <div>
+                    <label>사진:</label>
+                    <input type="text" id="pic" name="pic">
+                </div>
+                <div>
+                    <input type="submit" value="저장">
+                </div>
+            </form>
+        </div>
     </section>
     <footer>
 
