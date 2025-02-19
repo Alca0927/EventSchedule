@@ -56,34 +56,10 @@
             </div>
             <div class="buttons">
                 <!-- <input type="submit" value="제출"> --> 
-                <button type="button" onclick="showSigninForm()">회원가입</button>
+                <button type="submit">회원가입</button>
             </div>
         </form>
-
-        <script>    
-            document.getElementById('signupForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(this);
-                fetch('/signup', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(err => { throw new Error(err.error); });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    alert(data.message);
-                    // 회원가입 성공시 로그인 페이지로 리디렉션
-                    window.location.href = '/';
-                })
-                .catch(error => {
-                    alert('회원가입 실패: ' + error.message);
-                });
-            });
-
-        </script>
+    </div>
+        
 </body>
 </html>

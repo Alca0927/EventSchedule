@@ -11,7 +11,7 @@
         <section>
             <ul>
                 <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signin">회원가입</a> {% endif %}</li>
+                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
             </ul>
         </section>
     </header>
