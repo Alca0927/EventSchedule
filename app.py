@@ -1,6 +1,8 @@
 # 모든 라우터 등의 정보가 들어갑니다.
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, login_required, login_user, logout_user
+import pymysql
 
 app = Flask(__name__)
 
@@ -26,7 +28,8 @@ with app.app_context():
 # 라우트
 @app.route('/')
 def home():
-    return render_template('home.html')
+    events = Event.query.filter(Event.eventName).all()
+    return render_template('home.html',events=events)
 
 @app.route('/upload')
 def uploadPage():
@@ -66,5 +69,12 @@ def get_detail():
         for event in events
     ])
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    session.pop('user_id', None)
+    return redirect(url_for('home'))
+
 if __name__ == '__main__':
     app.run(debug=True)
+
