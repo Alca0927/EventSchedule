@@ -5,6 +5,7 @@ from login_manager import login_manager
 import secrets
 from PIL import Image
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -128,6 +129,12 @@ def setup_routes(app):
             location = request.form['location']
             explain = request.form['explain']
             image = request.files['image']
+
+            # date를 YYYY-MM-DD 문자열을 python날짜로 변환
+            startDate = datetime.strptime(startDate, '%Y-%m-%d').date()
+            endDate = datetime.strptime(endDate, '%Y-%m-%d').date()
+            
+            # 이미지 저장 & 경로 저장
             if image:
                 file_path = os.path.join(UPLOAD_FOLDER, image.filename)
                 image.save(file_path)
