@@ -50,4 +50,5 @@ nextBtn.addEventListener("click", () => {
     currentYear++;
   }
   renderCalendar();
+  
 });
