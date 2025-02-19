@@ -5,7 +5,7 @@ from flask_login import LoginManager, login_required, login_user, logout_user
 from io import BytesIO
 import base64
 import pymysql
-
+from utils import savePic
 
 app = Flask(__name__)
 
@@ -22,7 +22,7 @@ class Event(db.Model):
     endDate = db.Column(db.String(30), nullable=False)
     location = db.Column(db.String(30), nullable=False)
     explain = db.Column(db.String(500), nullable=False)
-    image = db.Column(db.LargeBinary)
+    image = db.Column(db.String(500), nullable=False)
 
     def __repr__(self):
         return f'<Event {self.eventName}>'
@@ -43,6 +43,19 @@ def uploadPage():
 # 업로드 하는 기능 구현
 @app.route('/upload/new', methods=['POST'])
 def uploadNew():
+
+    data = request.form
+    files = request.files
+
+    eventName = data.get('eventName')
+    startDate = data.get('startDate')
+    endDate = data.get('endDate')
+    location = data.get('location')
+    explain = data.get('explain')
+    if files:
+        picFileName = savePic(files['image'], )
+    image = data.get('image')
+
     if request.method == "POST":
         eventName = request.form['eventName']
         startDate = request.form['startDate']
