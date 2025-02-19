@@ -6,6 +6,42 @@
     <title>로그인</title>
 </head>
 <body>
-    
+    <div class="container">
+        <h1>이벤트 정보사이트에 오신 것을 환영합니다!</h1>
+        <p>코엑스, 킨텍스 등 이벤트 정보를 확인하고 후기를 남길 수 있습니다.</p>
+
+        <!-- 로그인 페이지 -->
+        <form action="/login" id="loginForm" method="post">
+            <div class="form group">
+                <label for="userid">사용자 계정:</label>
+                <input type="text" id="userid" name="userid">
+            </div>
+            <div class="form group">
+                <label for="password">비밀 번호 :</label>
+                <input type="password" id="password" name="password">
+            </div>
+        </form>
+
+        <!-- 회원가입 폼 -->
+        <form action="/signup" id="signupForm" style="display:none;" method="post">
+            <div class="form group">
+                <label for="signupUserid">사용자 ID:</label>
+                <input type="text" id="signupUserid" name="signupUserid">
+            </div>
+            <div class="form group">
+                <label for="signupPassword">비밀 번호 :</label>
+                <input type="signupPassword" id="signupPassword" name="signupPassword">
+            </div>
+            <div class="form group">
+                <label for="signupUsername">사용자 이름:</label>
+                <input type="text" id="signupUsername" name="signupUsername">
+            </div>
+            <div class="form group">
+                <label for="signupUseremail">사용자 e-mail:</label>
+                <input type="text" id="signupUseremail" name="signupUseremail">
+            </div>
+        </form>
+
 </body>
+<script type="text/javascript" src="/appmain/static/js/navbar.js"></script>
 </html>

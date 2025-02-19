@@ -1,0 +1,72 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* 
+1) Arial: 이 값은 웹페이지에서 텍스트를 표시할 때 사용할 글꼴 중 첫 번째로 지정한 글꼴 이름이다. 
+웹 브라우저는 컴퓨터에 설치된 해당 글꼴을 찾아서 사용하려고 시도한다. 
+만약 컴퓨터에 Arial 글꼴이 설치되어 있지 않다면, 다음에 오는 글꼴 이름(두 번째 값)로 대체되어 텍스트가 표시된다.
+2) sans-serif: 이 값은 웹 브라우저가 Arial 글꼴을 찾을 수 없는 경우 대체할 기본 sans-serif 글꼴을 지정한다. 
+"sans-serif"는 비행기체(serif) 없이 깔끔하게 디자인된 글꼴을 의미한다. 
+보통 Arial이나 Helvetica, Verdana 등과 같은 글꼴이 이에 해당한다. 
+
+따라서 font-family: Arial, sans-serif;는 웹페이지에서 텍스트를 Arial 글꼴로 표시하려고 시도하고, 
+만약 Arial 글꼴이 없으면 기본적으로 sans-serif 글꼴을 사용하도록 지정하는 CSS 속성이다. 
+이렇게 함으로써 모든 사용자들이 비슷한 형태의 텍스트를 보게 된다. 
+*/
+
+.calendar-container {
+  width: 300px;
+  margin: 30px auto;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  background-color: #fdefde;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  /* 
+  grid-template-columns : CSS의 Grid 레이아웃에서 사용되는 속성(property) 중 하나로, 
+  그리드 컨테이너(grid container)의 열(column) 크기를 지정하는 것을 말한다.
+  repeat(7, 1fr) : 1행에 7개의 열이 있으며, 
+  각 열의 크기를 동일하게 1분의 1(fractional unit, fr)로 설정하라는 의미한다. */
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+/* grid-template-columns 속성을 사용하여 그리드 컨테이너의 열 크기를 유연하게 조정할 수 있으며, 
+반응형 웹 디자인에서 유용하게 활용된다. 
+이렇게 함으로써 웹페이지의 레이아웃을 다양한 화면 크기와 장치에 맞추는데 도움이 된다. */
+
+.day {
+  padding: 5px;
+}
+
+.calendar-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 5px;
+}
+
+.date {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.date:hover {
+  background-color: #f5f5f5;
+}
