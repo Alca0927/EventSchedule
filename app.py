@@ -5,7 +5,9 @@ from flask_login import LoginManager, login_required, login_user, logout_user
 from io import BytesIO
 import base64
 import pymysql
-from utils import savePic
+import secrets
+from PIL import Image
+import os
 
 app = Flask(__name__)
 
@@ -53,27 +55,12 @@ def uploadNew():
     location = data.get('location')
     explain = data.get('explain')
     if files:
-        picFileName = savePic(files['image'], )
-    image = data.get('image')
-
-    if request.method == "POST":
-        eventName = request.form['eventName']
-        startDate = request.form['startDate']
-        endDate = request.form['endDate']
-        location = request.form['location']
-        explain = request.form['explain']
-        file = request.files["image"]
-
-        if file:
-            image_data = file.read()
-        else:
-            image_data = None
-
-        post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=image_data)
-        db.session.add(post)
-        db.session.commit()
-        return render_template('home.html')
-    return render_template('upload.html')
+        picFileName = savePic(files['image'], eventName)
+ 
+    post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=picFileName)
+    db.session.add(post)
+    db.session.commit()
+    return render_template('home.html')
 
 @app.route('/image/<int:event_id>')
 def get_image(event_id):
@@ -97,6 +84,20 @@ def logout():
 @app.route('/mypage')
 def myPage():
     return render_template('mypage.html')
+
+# 첨부 이미지 파일 저장 함수
+def savePic(pic, eventName):
+    randHex = secrets.token_hex(8)
+    _, fExt = os.path.splitext(pic.filename)
+    picFileName = randHex + fExt
+    picDir = os.path.join(app.static_folder, 'pics', eventName)
+    picPath = os.path.join(picDir, picFileName)
+    os.makedirs(picDir, exist_ok=True)
+
+    with Image.open(pic) as image:
+        image.save(picPath)
+
+    return picFileName
 
 if __name__ == '__main__':
     app.run(debug=True)
