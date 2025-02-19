@@ -15,7 +15,7 @@ class Event(db.Model):
     endDate = db.Column(db.String(30), nullable=False)
     location = db.Column(db.String(30), nullable=False)
     explain = db.Column(db.String(500), nullable=False)
-    image = db.Column(db.String(30), nullable=False)
+    image = db.Column(db.String(30))
 
     def __repr__(self):
         return f'<Event {self.eventName}>'
@@ -41,10 +41,10 @@ def uploadNew():
         endDate = request.form['endDate']
         location = request.form['location']
         explain = request.form['explain']
-        pic = request.form['pic']
+        image = request.form['image']
 
-        post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, pic=pic)
+        post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=image)
         db.session.add(post)
         db.session.commit()
-        return jsonify({'message':'게시물을 업로드되었습니다.'})
-    return redirect(url_for('home'))
+        return render_template('home.html')
+    return render_template('upload.html')
