@@ -33,7 +33,7 @@ with app.app_context():
 # 라우트
 @app.route('/')
 def home():
-    events = Event.query.filter(Event.eventName).all()
+    events = Event.query.all()
     return render_template('home.html',events=events)
 
 @app.route('/upload')
@@ -80,6 +80,10 @@ def logout():
     logout_user()
     session.pop('user_id', None)
     return redirect(url_for('home'))
+
+@app.route('/mypage')
+def myPage():
+    return render_template('mypage.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

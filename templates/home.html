@@ -17,7 +17,24 @@
     </header>
     <section>
         <div>
-            <h1>{% for event in events %} event {% endfor %}</h1>
+            {% for event in events %}
+            <ul>
+                <li>
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="{{ url_for('get_image', event_id=event.no) }}" alt="이벤트 이미지" style="max-width: 300px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{event.eventName}}
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+            {% endfor %}
         </div>
     </section>
     <footer>
