@@ -7,11 +7,17 @@
 </head>
 <body>
     <header>
-
+        <h1>홈페이지</h1>
+        <section>
+            <ul>
+                <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signin">회원가입</a> {% endif %}</li>
+            </ul>
+        </section>
     </header>
     <section>
         <div>
-            <h1>확인</h1>
+            <h1>{% for event in events %} event {% endfor %}</h1>
         </div>
     </section>
     <footer>
