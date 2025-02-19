@@ -2,24 +2,30 @@ from flask import Flask, render_template, request, jsonify, abort, redirect, url
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from models import db, Event, members, mypage
 from login_manager import login_manager
+import secrets
+from PIL import Image
+import os
+
+app = Flask(__name__)
 
 def setup_routes(app):
-    @login_manager.members_loader
+    @login_manager.user_loader
     def load_members(members_id):
         return members.query.get(int(members_id))
 
     # 기존 라우터
     @app.route('/')
     def home():
-        return render_template('Home.html')
+        events = Event.query.all()
+        return render_template('home.html',events=events)
 
-    @app.route('/about')
-    def about():
-        return '이것은 이벤트 정보 소개 페이지입니다.'
-
-    # 로그인/ 로그아웃 처리 라우트
-    @app.route('/login', methods=['GET', 'POST'])
+    @app.route('/login')
     def login():
+        return render_template('signin.html')
+            
+    # 로그인/ 로그아웃 처리 라우트
+    @app.route('/loginTry', methods=['GET', 'POST'])
+    def loginTry():
         if request.method == 'POST':
             user = members.query.filter_by(username=request.form['username']).first()
             if user and user.check_password(request.form['password']):
@@ -34,9 +40,13 @@ def setup_routes(app):
         logout_user()
         return redirect(url_for('home')) # 로그아웃 후 메인 페이지로 리다이렉트
 
+    @app.route('/signup')
+    def signup():
+        return render_template('signup.html')
+
     # 회원가입 기능 라우트
-    @app.route('/signup', methods=['GET', 'POST'])
-    def signup() :
+    @app.route('/signupTry', methods=['GET', 'POST'])
+    def signupTry() :
         if request.method == 'POST' :
             userid = request.form['userid']
             password = request.form['password']
@@ -91,4 +101,47 @@ def setup_routes(app):
             return jsonify({'message': 'Mypage one record deleted'}), 200
         else:
             abort(404, decription="Memo not found or not authorized")
-            
+    
+    # 상세 페이지 정보 가져오기
+    @app.route('/detail', methods=['GET','POST'])
+    def get_event():
+        events = Event.query.all()
+        return render_template('detail.html', events=events)
+
+    @app.route('/upload')
+    def uploadPage():
+        return render_template('upload.html')
+
+    # 업로드 하는 기능 구현
+    @app.route('/upload/new', methods=['POST'])
+    def uploadNew():
+
+        data = request.form
+        files = request.files
+
+        eventName = data.get('eventName')
+        startDate = data.get('startDate')
+        endDate = data.get('endDate')
+        location = data.get('location')
+        explain = data.get('explain')
+        if files:
+            picFileName = savePic(files['image'], eventName)
+    
+        post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=picFileName)
+        db.session.add(post)
+        db.session.commit()
+        return render_template('home.html')
+
+# 첨부 이미지 파일 저장 함수
+def savePic(pic, eventName):
+    randHex = secrets.token_hex(8)
+    _, fExt = os.path.splitext(pic.filename)
+    picFileName = randHex + fExt
+    picDir = os.path.join(app.static_folder, 'pics', eventName)
+    picPath = os.path.join(picDir, picFileName)
+    os.makedirs(picDir, exist_ok=True)
+
+    with Image.open(pic) as image:
+        image.save(picPath)
+
+    return picFileName
