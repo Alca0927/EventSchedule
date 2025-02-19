@@ -48,3 +48,23 @@ def uploadNew():
         db.session.commit()
         return render_template('home.html')
     return render_template('upload.html')
+  
+# 상세 페이지 정보 가져오기
+@app.route('/detail', methods=['GET'])
+def get_detail():
+    events = Event.query.all()
+    return jsonify([
+        {
+            "id": event.no,
+            "eventName": event.eventName,
+            "startDate": event.startDate,
+            "endDate": event.endDate,
+            "location": event.location,
+            "explain": event.explain,
+            "image": event.image
+        }
+        for event in events
+    ])
+
+if __name__ == '__main__':
+    app.run(debug=True)

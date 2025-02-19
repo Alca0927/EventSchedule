@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상세 페이지</title>
 </head>
-<body>
+<body>{%for detail in Detail%}
     <img class="poster">
-    <h2 class="eventName"></h2>
+    <h2 class="eventName">{{detail.eventName}}</h2>
     <br>
     <br>
-    <h4 class="date"></h4>
-    <h4 class="location"></h4>
-    <h5 class="explain"></h5>
+    <h4 class="date">{{detail.startDate}} ~ {{detail.endDate}}</h4>
+    <h4 class="location">{{detail.locaiton}}</h4>
+    <h5 class="explain">{{detail.explain}}</h5>
 </body>
 </html>
