@@ -6,20 +6,20 @@ db = SQLAlchemy()
 
 # database 모델 정의
 class Event(db.Model) :   # 이벤트 목록
-    et_no = db.Column(db.Integer, primary_key=True)
-    et_name = db.Column(db.string(50), nullable=False) 
-    et_startDate = db.Column(db.String(8), nullable=False)
-    et_endDate = db.Column(db.String(8), nullable=False)
-    et_location = db.Column(db.String(100), nullable=False)
-    et_explain = db.Column(db.String(1000), nullable=False)
-    et_image = db.Column(db.String(1000))
+    no = db.Column(db.Integer, primary_key=True)
+    eventName = db.Column(db.String(50), nullable=False) 
+    startDate = db.Column(db.String(8), nullable=False)
+    endDate = db.Column(db.String(8), nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    explain = db.Column(db.String(1000), nullable=False)
+    image = db.Column(db.String(1000))
 
     def __repr__(self):
         return f'<Event {self.title}>'
 
 class mypage(UserMixin, db.Model):   # Mypage
-    id = db.Column(db.string(20), primary_key=True, unique=True, nullable=False)
-    my_name = db.Column(db.string(50), nullable=False) 
+    id = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
+    my_name = db.Column(db.String(50), nullable=False) 
     my_startDate = db.Column(db.String(8), nullable=False)
     my_endDate = db.Column(db.String(8), nullable=False)
     my_location = db.Column(db.String(100), nullable=False)
@@ -27,7 +27,7 @@ class mypage(UserMixin, db.Model):   # Mypage
     my_image = db.Column(db.String(1000))
 
 class members(UserMixin, db.Model):    # 회원 Master
-    id = db.Column(db.string(20), primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(512))
