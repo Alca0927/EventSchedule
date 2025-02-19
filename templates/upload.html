@@ -11,7 +11,8 @@
     </header>
     <section>
         <div>
-            <form id="uploadForm" action="/upload/new" method="POST">
+            <!-- 🚀 enctype 추가: 파일 업로드 시 필수 -->
+            <form id="uploadForm" action="/upload/new" method="POST" enctype="multipart/form-data">
                 <div>
                     <label>행사 이름:</label>
                     <input type="text" id="eventName" name="eventName" required>
@@ -30,11 +31,11 @@
                 </div>
                 <div>
                     <label>설 명:</label>
-                    <textarea type="textarea" id="explain" name="explain" required></textarea>
+                    <textarea id="explain" name="explain" required></textarea>
                 </div>
                 <div>
-                    <label>사진:</label>
-                    <input type="text" id="image" name="image">
+                    <label>이미지 업로드:</label>
+                    <input type="file" id="fileInput" name="image" accept="image/*" required>
                 </div>
                 <div>
                     <input type="submit" value="저장">
@@ -45,5 +46,6 @@
     <footer>
 
     </footer>
+    </script>
 </body>
 </html>

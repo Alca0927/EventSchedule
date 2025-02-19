@@ -3,15 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상세 페이지</title>
+    <title>이벤트 상세</title>
 </head>
-<body>{%for detail in Detail%}
-    <img class="poster">
-    <h2 class="eventName">{{detail.eventName}}</h2>
-    <br>
-    <br>
-    <h4 class="date">{{detail.startDate}} ~ {{detail.endDate}}</h4>
-    <h4 class="location">{{detail.locaiton}}</h4>
-    <h5 class="explain">{{detail.explain}}</h5>
+<body>
+    <h1>전시회 상세 정보</h1>
+
+    {% if events %}  <!-- events 리스트가 비어 있지 않다면 -->
+        {% set event = events[0] %}  <!-- 첫 번째 이벤트만 선택 -->
+        
+        <div class="event">
+
+            {% if event.image %}
+                <img src="{{ url_for('get_image', event_id=event.no) }}" alt="이벤트 이미지" style="max-width: 300px;">
+            {% else %}
+                <p>이미지 없음</p>
+            {% endif %}
+
+            <h2 class="eventName">{{ event.eventName }}</h2>
+            <h4 class="date">{{ event.startDate }} ~ {{ event.endDate }}</h4>
+            <h4 class="location">{{ event.location }}</h4>
+            <h5 class="explain">{{ event.explain }}</h5>
+        </div>
+    
+    {% else %}  <!-- events 리스트가 비어 있다면 -->
+        <p>현재 진행 중인 전시회가 없습니다.</p>
+    {% endif %}
 </body>
 </html>
