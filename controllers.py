@@ -54,10 +54,10 @@ def setup_routes(app):
     @app.route('/signupTry', methods=['GET', 'POST'])
     def signupTry() :
         if request.method == 'POST' :
-            userid = request.form['userid']
-            password = request.form['password']
-            username = request.form['username']
-            email = request.form['email']
+            userid = request.form['signupUserid']
+            password = request.form['signupPassword']
+            username = request.form['signupUsername']
+            email = request.form['signupUseremail']
             
             # 회원가입 실패시 에러 메시지를 json형태로 반환(프런트앤드 페이지에서 해당 메시지를 기반으로 팝업을 띄움)
             existing_member = members.query.filter((members.username == username) | (members.email == email)).first()
