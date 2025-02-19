@@ -18,7 +18,7 @@
     <section>
         <div>
             <!-- 🚀 enctype 추가: 파일 업로드 시 필수 -->
-            <form>
+            <form action="upload/new" method="POST" enctype="multipart/form-data">
                 <div>
                     <label for="eventName">행사 이름:</label>
                     <input type="text" id="eventName" name="eventName" required>
@@ -41,10 +41,10 @@
                 </div>
                 <div>
                     <label for="image">이미지 업로드:</label>
-                    <input type="file" id="image" name="image" required>
+                    <input type="file" id="image" name="image" accept="image/*" required>
                 </div>
                 <div>
-                    <button type="button" id="submit_button">등록</button>
+                    <button type="submit" id="submit_button">등록</button>
                 </div>
             </form>
         </div>
@@ -53,38 +53,4 @@
 
     </footer>
 </body>
-<script>
-    let eventName = document.querySelector('#eventName');
-    let startDate = document.querySelector('#startDate');
-    let endDate = document.querySelector('#endDate');
-    let location = document.querySelector('#location');
-    let explain = document.querySelector('#explain');
-    let image = document.querySelector('#image');
-
-    function onSubmitHandler(){
-        let formData = new FormData();
-
-        formData.set('eventName', eventName.value);
-        formData.set('startDate', startDate.value);
-        formData.set('endDate', endDate.value);
-        formData.set('location', location.value);
-        formData.set('explain', explain.value);
-        formData.set('image', image.files[0]); //'image' 키이름으로 파일 첨부부
-
-        fetch('/upload/new',{
-            mothod:'POST',
-            body:formData
-        }).then((response) => {
-            return response.json();
-        }).then((resBody) => {
-            console.log('success'), resBody['success'];
-            window.location.replace('/')
-        }).catch((error) => {
-            console.log('[Error]',error);
-        });
-    }
-    
-    let submitButton = document.querySelector('#submit_button');
-    submitButton.addEventListener('click', onSubmitHandler);
-</script>
 </html>

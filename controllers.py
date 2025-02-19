@@ -8,6 +8,12 @@ import os
 
 app = Flask(__name__)
 
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static/pic')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = 'secret_key'
+
 def setup_routes(app):
     @login_manager.user_loader
     def load_members(members_id):
@@ -113,35 +119,20 @@ def setup_routes(app):
         return render_template('upload.html')
 
     # 업로드 하는 기능 구현
-    @app.route('/upload/new', methods=['POST'])
+    @app.route('/upload/new', methods=['GET','POST'])
     def uploadNew():
-
-        data = request.form
-        files = request.files
-
-        eventName = data.get('eventName')
-        startDate = data.get('startDate')
-        endDate = data.get('endDate')
-        location = data.get('location')
-        explain = data.get('explain')
-        if files:
-            picFileName = savePic(files['image'], eventName)
-    
-        post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=picFileName)
-        db.session.add(post)
-        db.session.commit()
-        return render_template('home.html')
-
-# 첨부 이미지 파일 저장 함수
-def savePic(pic, eventName):
-    randHex = secrets.token_hex(8)
-    _, fExt = os.path.splitext(pic.filename)
-    picFileName = randHex + fExt
-    picDir = os.path.join(app.static_folder, 'pics', eventName)
-    picPath = os.path.join(picDir, picFileName)
-    os.makedirs(picDir, exist_ok=True)
-
-    with Image.open(pic) as image:
-        image.save(picPath)
-
-    return picFileName
+        if request.method == 'POST':
+            eventName = request.form['eventName']
+            startDate = request.form['startDate']
+            endDate = request.form['endDate']
+            location = request.form['location']
+            explain = request.form['explain']
+            image = request.files['image']
+            if image:
+                file_path = os.path.join(UPLOAD_FOLDER, image.filename)
+                image.save(file_path)
+            post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=image.filename)
+            db.session.add(post)
+            db.session.commit()
+            return redirect(url_for('home'))
+        return render_template('upload.html')
