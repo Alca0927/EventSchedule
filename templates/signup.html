@@ -37,7 +37,7 @@
         <h2>회원가입 페이지</h2> 
         
         <!-- 회원가입 폼 -->
-        <form action="/signupTry" id="signupForm" style="display:none;" method="post">
+        <form action="/signupTry" id="signupForm" style="display:contents;" method="post">
             <div class="form group">
                 <label for="signupUserid">사용자 ID:</label>
                 <input type="text" id="signupUserid" name="signupUserid">
@@ -53,6 +53,10 @@
             <div class="form group">
                 <label for="signupUseremail">사용자 e-mail:</label>
                 <input type="text" id="signupUseremail" name="signupUseremail">
+            </div>
+            <div class="buttons">
+                <!-- <input type="submit" value="제출"> --> 
+                <button type="button" onclick="showSigninForm()">회원가입</button>
             </div>
         </form>
 
