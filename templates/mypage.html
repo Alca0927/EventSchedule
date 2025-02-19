@@ -8,17 +8,17 @@
 </head>
 <body>
     <header>
-        <h1>마이 페이지 대문</h1>
+        <h1>마이 페이지 대문</h1>   <!--임시 -->
     </header>
 
     <section>
         <div class="calendar-container">
             <div class="calendar-header">
-              <button id="prevBtn">이전</button>
-              <h2 id="currentMonth"></h2>
-              <button id="nextBtn">다음</button>
+              <button id="prevBtn">이전</button><!--이전 월로 넘기기 -->
+              <h2 id="currentMonth"></h2> <!--년도 월 출력 -->
+              <button id="nextBtn">다음</button> <!--다음 월로 넘기기 -->
             </div>
-            <div class="calendar-days">
+            <div class="calendar-days">  <!-- 요일 생성 -->
               <div class="day">일</div>
               <div class="day">월</div>
               <div class="day">화</div>
@@ -27,9 +27,16 @@
               <div class="day">금</div>
               <div class="day">토</div>
             </div>
-            <div class="calendar-dates" id="calendarDates"></div>
-          </div>
+            <div class="calendar-dates" id="calendarDates"></div> <!--년도 월에 맞는 날자 js 파일에서 불러옴 -->
+        </div>
+        <div class="detail-container">    <!--행사 이미지 정보 들어갈 곳 -->
+          <h2>행사 제목</h2>
+          <img src="#" alt="행사 사진">
+          <h3>행사 정보</h3>
+
+        </div>
           <script src="/static/js/calendar.js"></script>
     </section>
+    
 </body>
 </html>
