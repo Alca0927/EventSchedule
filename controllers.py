@@ -33,8 +33,11 @@ def setup_routes(app):
     @app.route('/loginTry', methods=['GET', 'POST'])
     def loginTry():
         if request.method == 'POST':
-            user = members.query.filter_by(username=request.form['username']).first()
-            if user and user.check_password(request.form['password']):
+            id = request.form['id']
+            password = request.form['password']
+
+            user = members.query.filter_by(id=id).first()
+            if user and user.check_password(password):
                 login_user(user)
                 return jsonify({'message': '로그인에 성공하였습니다. 이벤트 정보 상세 페이지로 이동합니다.'}), 200
             return jsonify({'error': '아이디가 없거나 패스워드가 다릅니다.'}), 400
@@ -54,7 +57,7 @@ def setup_routes(app):
     @app.route('/signupTry', methods=['GET', 'POST'])
     def signupTry() :
         if request.method == 'POST' :
-            userid = request.form['signupUserid']
+            id = request.form['signupUserid']
             password = request.form['signupPassword']
             username = request.form['signupUsername']
             email = request.form['signupUseremail']
@@ -63,12 +66,12 @@ def setup_routes(app):
             existing_member = members.query.filter((members.username == username) | (members.email == email)).first()
             if existing_member :
                 return jsonify({'error': '사용자 이름 또는 이메일이 이미 사용 중입니다.'}), 400
-            members = members(userid= userid, username=username, email=email)
-            members.set_password(password)
-            db.session.add(members)
+            member = members(id= id, password=password, username=username, email=email)
+            # members.set_password(password_hash)
+            db.session.add(member)
             db.session.commit()
 
-            return jsonify({'message': '회원가입이 성공하였습니다. 기입한 아이디와 패스워드로 로그인할 수 있습니다.'}), 201
+            return render_template('home.html')
         return redirect(url_for('home')) # 비정상 요청의 경우 리다이렉트
 
     # 개인 상세페이지 조회 (로그인 성공하면 기존 자신의 즐겨찾기 저장 된 페이지(favorite))

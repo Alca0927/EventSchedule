@@ -30,10 +30,10 @@ class members(UserMixin, db.Model):    # 회원 Master
     id = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(512))
+    password = db.Column(db.String(512))
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        self.password = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password, password)
