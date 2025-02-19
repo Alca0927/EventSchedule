@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URL'] = 'mysql+pymysql://root:1234@localhost:3306/EventSchedule'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost:3306/EventSchedule'
 db = SQLAlchemy(app)
 
 # 데이터 모델 정의 (행사 정보)
@@ -15,10 +15,10 @@ class Event(db.Model):
     endDate = db.Column(db.String(30), nullable=False)
     location = db.Column(db.String(30), nullable=False)
     explain = db.Column(db.String(500), nullable=False)
-    image = db.Column(db.String(30), nullable=False)
+    image = db.Column(db.String(30))
 
     def __repr__(self):
-        return f'Event {self.eventName}'
+        return f'<Event {self.eventName}>'
 
 with app.app_context():
     db.create_all()
@@ -41,10 +41,10 @@ def uploadNew():
         endDate = request.form['endDate']
         location = request.form['location']
         explain = request.form['explain']
-        pic = request.form['pic']
+        image = request.form['image']
 
-        post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, pic=pic)
+        post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=image)
         db.session.add(post)
         db.session.commit()
-        return jsonify({'message':'게시물을 업로드되었습니다.'})
-    return redirect(url_for('home'))
+        return render_template('home.html')
+    return render_template('upload.html')
