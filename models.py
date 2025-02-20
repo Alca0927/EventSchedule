@@ -28,9 +28,9 @@ class mypage(UserMixin, db.Model):   # Mypage
     my_image = db.Column(db.String(1000))
 
 class members(UserMixin, db.Model):    # 회원 Master
-    id = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
-    username = db.Column(db.String(100), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
+    id = db.Column(db.String(20), primary_key=True, nullable=False)
+    username = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(512))
 
     def set_password(self, password):
