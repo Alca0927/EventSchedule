@@ -18,7 +18,7 @@
     <section>
         <div>
             <!-- 🚀 enctype 추가: 파일 업로드 시 필수 -->
-            <form action="upload/new" method="POST" enctype="multipart/form-data">
+            <form action="/detail/{{no}}/updating" method="POST" enctype="multipart/form-data">
                 <div>
                     <label for="eventName">행사 이름:</label>
                     <input type="text" id="eventName" name="eventName" required>

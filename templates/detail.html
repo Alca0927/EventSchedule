@@ -33,10 +33,10 @@
         </div>
         <div>
             {% if session.user_id == "admit" %}
-            <form method="POST" action="/update">
+            <form method="POST" action="/detail/{{no}}/update">
                 <button type="submit">수정</button>
             </form>
-            <form method="DELETE" action="/delete/<int:no>">
+            <form method="POST" action="/detail/{{no}}/delete">
                 <button type="submit">삭제</button>
             </form>
             {% elif session.user_id %}
