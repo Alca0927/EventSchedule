@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+    </script>
     <style>
         body { font-family: arial, sans-serif;}
         .container {
@@ -59,7 +64,11 @@
             </div>
         </form>
     </div>
-    
+    {% if message %}
+    <script>
+        showAlert("{{ message}}");
+    </script>
+    {% endif %}
 </body>
 
 </html>
