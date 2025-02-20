@@ -210,3 +210,15 @@ def setup_routes(app):
             db.session.commit()
             return redirect(url_for('home'))
         return redirect(url_for('home'))
+    
+    #회원가입 아이디 증복 확인 기능
+    @app.route('/checkDup', methods=['POST'])
+    def check_dup():
+        data = request.get_json()
+        user_id = data.get('userId')
+        if not user_id:
+            return jsonify({'exists': False})
+        # members 테이블에서 id가 존재하는지 확인
+        exists = members.query.filter_by(id=user_id).first() is not None
+        return jsonify({'exists': exists})
+   

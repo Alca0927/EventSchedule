@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <style>
-        body { font-family: arial, sans-serif;}
+        body { font-family: arial, sans-serif; }
         .container {
             width: 300px;
             margin: auto;
@@ -29,6 +29,7 @@
             margin-top: 20px;
         }
     </style>
+    
 </head>
 <body>
     <header>
@@ -42,33 +43,83 @@
     </header>
     <div class="container">
         <h1>이벤트 정보사이트에 오신 것을 환영합니다!</h1>
-
         <h2>회원가입 페이지</h2> 
         
         <!-- 회원가입 폼 -->
         <form action="/signupTry" id="signupForm" style="display:contents;" method="post">
-            <div class="form group">
+            <div class="form-group">
                 <label for="signupUserid">사용자 ID:</label>
                 <input type="text" id="signupUserid" name="signupUserid">
+                <button type="button" id="checkDupBtn">증복 확인</button>
             </div>
-            <div class="form group">
+            <div class="form-group">
                 <label for="signupPassword">비밀 번호 :</label>
-                <input type="signupPassword" id="signupPassword" name="signupPassword">
+                <input type="password" id="signupPassword" name="signupPassword">
             </div>
-            <div class="form group">
+            <div class="form-group">
                 <label for="signupUsername">사용자 이름:</label>
                 <input type="text" id="signupUsername" name="signupUsername">
             </div>
-            <div class="form group">
+            <div class="form-group">
                 <label for="signupUseremail">사용자 e-mail:</label>
                 <input type="text" id="signupUseremail" name="signupUseremail">
             </div>
             <div class="buttons">
-                <!-- <input type="submit" value="제출"> --> 
                 <button type="submit">회원가입</button>
             </div>
         </form>
-    </div>
-        
+    </div>    
 </body>
+<script> //아이디 증복 확인 스크립트
+    (function() {
+        var signupUseridInput = document.getElementById('signupUserid');
+        var signupForm = document.getElementById('signupForm');
+        var signupBtn = signupForm.querySelector('button[type="submit"]');
+        var duplicationChecked = false;
+        
+        // 페이지 로드 시 회원가입 버튼 비활성화
+        signupBtn.disabled = true;
+
+        // 중복 확인 버튼 이벤트 (AJAX 사용)
+        document.getElementById('checkDupBtn').addEventListener('click', function() {
+            var userId = signupUseridInput.value.trim();
+            if (!userId) {
+                alert('사용자 ID를 입력하세요.');
+                return;
+            }
+            // AJAX 호출: 서버의 /checkDup 엔드포인트에 userId 전달
+            fetch('/checkDup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ userId: userId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    alert('아이디가 증복 되었습니다 다른 아이디를 입력해주세요');
+                    duplicationChecked = false;
+                    signupBtn.disabled = true;
+                } else {
+                    alert('사용가능한 아이디 입니다');
+                    duplicationChecked = true;
+                    signupBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        // 회원가입 폼 제출 전 중복 확인 여부 검사
+        signupForm.addEventListener('submit', function(event) {
+            if (!duplicationChecked) {
+                alert('증복 확인 하시기 바랍니다.');
+                event.preventDefault();
+            }
+        });
+    })();
+</script>
 </html>
