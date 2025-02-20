@@ -31,16 +31,12 @@
             <h4 class="location">{{ event.location }}</h4>
             <h5 class="explain">{{ event.explain }}</h5>
         </div>
+        {% if %}
         <div>
             <form method="POST">
-                <button type="submit"></button>
-            </form>
-            <form>
-
+                <button type="submit">즐겨찾기</button>
             </form>
         </div>
-        {% else %}  <!-- events 리스트가 비어 있다면 -->
-            <p>현재 진행 중인 전시회가 없습니다.</p>
         {% endif %}
     </section>
     
