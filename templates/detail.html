@@ -32,12 +32,19 @@
             <h5 class="explain">{{ event.explain }}</h5>
         </div>
         <div>
-            <form method="POST">
-                <button type="submit"></button>
+            {% if session.user_id == admit}
+            <form method="POST" action="/update">
+                <button type="submit">수정</button>
             </form>
-            <form>
-
+            <form method="DELETE" action="/delete">
+                <button type="submit">삭제</button>
             </form>
+            {% elseif session.user_id %}
+            <form method="POST" action="/favorites">
+                <button type="submit">즐겨찾기</button>
+            </form>
+            {% else %}
+            {% endif %}
         </div>
         {% else %}  <!-- events 리스트가 비어 있다면 -->
             <p>현재 진행 중인 전시회가 없습니다.</p>
