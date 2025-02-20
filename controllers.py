@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, abort, redirect, url_for
+from flask import Flask, render_template, request, jsonify, abort, redirect, url_for, session
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from models import db, Event, members, mypage
 from login_manager import login_manager
@@ -43,6 +43,7 @@ def setup_routes(app):
             
             if password == user.password_hash:
                 login_user(user)
+                session['user_id'] = user.id
                 return redirect(url_for('home'))
             return jsonify({'error': '아이디가 없거나 패스워드가 다릅니다.'}), 400
         return redirect(url_for('home'))
@@ -52,6 +53,7 @@ def setup_routes(app):
     @login_required
     def logout():
         logout_user()
+        session.pop['user_id', None]
         return redirect(url_for('home')) # 로그아웃 후 메인 페이지로 리다이렉트
 
     # 회원가입 페이지
