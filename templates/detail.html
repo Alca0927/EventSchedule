@@ -40,8 +40,8 @@
                 <button type="submit">삭제</button>
             </form>
             {% elif session.user_id %}
-            <form method="POST" action="/favorites">
-                <button type="submit">즐겨찾기</button>
+            <form method="POST" action="/mypage/create/{{no}}">
+                <input type="submit" name="likes" value="즐겨찾기">
             </form>
             {% else %}
             {% endif %}

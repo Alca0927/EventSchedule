@@ -20,8 +20,8 @@ class Event(db.Model) :   # 이벤트 목록
 class mypage(UserMixin, db.Model):   # Mypage
     id = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
     my_name = db.Column(db.String(50), nullable=False) 
-    my_startDate = db.Column(db.String(8), nullable=False)
-    my_endDate = db.Column(db.String(8), nullable=False)
+    my_startDate = db.Column(db.String(20), nullable=False)
+    my_endDate = db.Column(db.String(20), nullable=False)
     my_location = db.Column(db.String(100), nullable=False)
     my_explain = db.Column(db.String(1000), nullable=False)
     my_image = db.Column(db.String(1000))

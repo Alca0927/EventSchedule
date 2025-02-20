@@ -104,22 +104,41 @@ def setup_routes(app):
         return render_template('mypage.html', events=events, username=current_user.username) 
 
     # 즐겨찾기 정보 생성
-    @app.route('/mypage/create', methods=['POST'])
+    @app.route('/mypage/create/<int:no>', methods=['POST'])
     @login_required
-    def create_mypage():
-        event = Event.query.filter_by(no=event.no).first() # 이벤트 Table 검색, event 선택 
-        if event:
-            Event.eventName = request.json['eventName']
-            Event.startDate = request.json['startDate']
-            Event.endDate = request.json['endDate']
-            Event.location = request.json['location']
-            Event.explain = request.json['explain']
-            Event.image = request.json['image']
-        
-            new_mypage = mypage(user_id=current_user.id, mypageName=members.Name) # 현재 로그인한 사용자의 ID추가
+    def create_mypage(no):
+
+        if request.method=='POST': 
+            likes = request.form['likes']
+
+        if likes == '즐겨찾기':
+
+            user = members.query.filter_by(id=current_user.id).first()
+            event = Event.query.filter_by(no=no).first()
+
+            id = user.id
+            name = user.username
+            eventName = event.eventName
+            startDate = event.startDate
+            endDate = event.endDate
+            explain = event.explain
+            location = event.location
+            image = event.image
+
+            new_mypage= mypage(
+                id=id,
+                my_name=name,
+                my_eventName=eventName,
+                my_startDate=startDate,
+                my_endDate=endDate,
+                my_location=location,
+                my_explain=explain,
+                my_image=image
+                )
+            
             db.session.add(new_mypage)
             db.session.commit()
-            return jsonify({'message': 'Mypage created'}), 201
+            return redirect(url_for('home'))
 
     # mypage 삭제
     @app.route('/mypage/delete/<int:id>', methods=['DELETE'])
@@ -210,3 +229,5 @@ def setup_routes(app):
             db.session.commit()
             return redirect(url_for('home'))
         return redirect(url_for('home'))
+    
+    
