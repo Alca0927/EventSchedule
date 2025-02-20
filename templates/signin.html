@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+    </script>
     <style>
         body { font-family: arial, sans-serif;}
         .container {
@@ -35,8 +40,9 @@
         <h1><a href="/">홈페이지</a></h1>
         <section>
             <ul>
+                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
                 <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signin">회원가입</a> {% endif %}</li>
+                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
             </ul>
         </section>
     </header>
@@ -59,7 +65,11 @@
             </div>
         </form>
     </div>
-    
+    {% if message %}
+    <script>
+        showAlert("{{ message}}");
+    </script>
+    {% endif %}
 </body>
 
 </html>

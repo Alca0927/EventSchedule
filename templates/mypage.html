@@ -1,48 +1,64 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/calendar.css">
-    <title>마이 페이지</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/calendar.css">
+  <title>마이 페이지</title>
 </head>
 <body>
   <header>
+    <!-- 헤더 -->
     <h1><a href="/">홈페이지</a></h1>
     <section>
-        <ul>
-            <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-            <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signin">회원가입</a> {% endif %}</li>
-        </ul>
+      <ul>
+        <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
+        <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+        <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
+      </ul>
     </section>
   </header>
+  <section>
+      <div class="calendar-container">
+          <div class="calendar-header">
+            <button id="prevBtn">이전</button>
+            <h2 id="currentMonth"></h2>
+            <button id="nextBtn">다음</button>
+          </div>
+          <div class="calendar-days">
+            <div class="day">일</div>
+            <div class="day">월</div>
+            <div class="day">화</div>
+            <div class="day">수</div>
+            <div class="day">목</div>
+            <div class="day">금</div>
+            <div class="day">토</div>
+          </div>
+          <div class="calendar-dates" id="calendarDates"></div>
+      </div>
+      <div class="detail-container">
+        
+        <img id="detailImage" src="#" alt="행사 사진" style="width:100%; max-height:200px; object-fit:cover;">
+        <h2 id="detailEventName">행사 제목</h2>
+        <p id="detailLocation">행사 위치</p>
+        <p id="detailExplain">행사 설명</p>
+        <form id='deleteEventName' action="/mypage/delete/deleteEventName" method="POST">
+          <button type="submit" value="삭제">즐겨찾기 삭제</button>
+        </form>
+      </div>
+  </section>
 
-    <section>
-        <div class="calendar-container">
-            <div class="calendar-header">
-              <button id="prevBtn">이전</button><!--이전 월로 넘기기 -->
-              <h2 id="currentMonth"></h2> <!--년도 월 출력 -->
-              <button id="nextBtn">다음</button> <!--다음 월로 넘기기 -->
-            </div>
-            <div class="calendar-days">  <!-- 요일 생성 -->
-              <div class="day">일</div>
-              <div class="day">월</div>
-              <div class="day">화</div>
-              <div class="day">수</div>
-              <div class="day">목</div>
-              <div class="day">금</div>
-              <div class="day">토</div>
-            </div>
-            <div class="calendar-dates" id="calendarDates"></div> <!--년도 월에 맞는 날자 js 파일에서 불러옴 -->
-        </div>
-        <div class="detail-container">    <!--행사 이미지 정보 들어갈 곳 -->
-          <h2>행사 제목</h2>
-          <img src="#" alt="행사 사진">
-          <h3>행사 정보</h3>
-
-        </div>
-          <script src="/static/js/calendar.js"></script>
-    </section>
-    
+  <script>
+    const myEvents = JSON.parse(`{{ events | tojson | safe }}`);
+    // 달력을 렌더링한 후 이벤트들을 달력에 표시
+    renderCalendar();
+    setDate();
+    myEvents.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+    myEvents.forEach(event => {
+      setDate(event.startDate, event.endDate, event.eventName, event.location, event.explain, event.image);
+    });
+  </script>
+  <script src="/static/js/calendar.js"></script>
+  
 </body>
 </html>

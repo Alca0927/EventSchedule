@@ -11,15 +11,12 @@
         <h1><a href="/">홈페이지</a></h1>
         <section>
             <ul>
+                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
                 <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
                 <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
-                <li>{% if session %} <a href='/upload'>행사 일정 업로드</a>{% else %} {% endif %}</li>
             </ul>
         </section>
     </header>
-    <section>
-        <h4><a href="/detail">상세 페이지</a></h4>
-    </section>
     <section>  
         <!-- 본문 -->
         <div>
@@ -29,14 +26,14 @@
                     <table>
                         <tr>
                             <td>
-                                {% if event.image %}
-                                    <img src="{{url_for('static', filename='pic/' + event.image)}}" width="100">
-                                {% endif %}
+                                <a href="/detail/{{event.no}}">
+                                    <img src="{{url_for('static', filename='pic/' + event.image)}}" width="100" alt="{{event.eventName}}">
+                                </a>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                {{event.eventName}}
+                                <a href="/detail/{{event.no}}">{{event.eventName}}</a>
                             </td>
                         </tr>
                     </table>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, abort, redirect, url_for
+from flask import Flask, render_template, request, jsonify, abort, redirect, url_for, session
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from models import db, Event, members, mypage
 from login_manager import login_manager
@@ -41,10 +41,15 @@ def setup_routes(app):
 
             user = members.query.filter_by(id=id).first()
             
-            if password == user.password_hash:
-                login_user(user)
-                return redirect(url_for('home'))
-            return jsonify({'error': '아이디가 없거나 패스워드가 다릅니다.'}), 400
+            if id != user.id:
+                return render_template("signin.html", message="아이디를 확인하세요.")
+            else:
+                if password == user.password_hash:
+                    login_user(user)
+                    session['user_id'] = user.id
+                    return redirect(url_for('home'))
+                else:
+                    return render_template("signin.html", message="패스워드가 다릅니다.")
         return redirect(url_for('home'))
 
     # 로그아웃 기능
@@ -52,6 +57,7 @@ def setup_routes(app):
     @login_required
     def logout():
         logout_user()
+        session.pop('user_id', None)
         return redirect(url_for('home')) # 로그아웃 후 메인 페이지로 리다이렉트
 
     # 회원가입 페이지
@@ -80,48 +86,88 @@ def setup_routes(app):
             return render_template('home.html')
         return redirect(url_for('home')) # 비정상 요청의 경우 리다이렉트
 
-    # 개인 상세페이지 조회 (로그인 성공하면 기존 자신의 즐겨찾기 저장 된 페이지(favorite))
     @app.route('/mypage', methods=['GET'])
     @login_required
-    def list_mypage() :
-        mypages = mypage.query.filter_by(user_id=current_user.id).all() # 현재 로그인한 사용자의 즐겨찾기 저장된 것만 조회
-        return render_template('mypage.html', mypages=mypages, username=current_user.username) # 사용자별 즐겨찾기 저장된 정보 표시 렌더링 
+    def list_mypage():
+        # 현재 로그인한 사용자의 id가 mypage 테이블의 id와 일치한다고 가정
+        mypages = mypage.query.filter_by(id=current_user.id).all()
+        events = []
+        for mp in mypages:
+            # 날짜 형식이 "YYYYMMDD"라면 "YYYY-MM-DD"로 변환, 이미 형식이 맞다면 그대로 사용
+            if len(mp.my_startDate) == 8:
+                start = f"{mp.my_startDate[:4]}-{mp.my_startDate[4:6]}-{mp.my_startDate[6:]}"
+            else:
+                start = mp.my_startDate
+            if len(mp.my_endDate) == 8:
+                end = f"{mp.my_endDate[:4]}-{mp.my_endDate[4:6]}-{mp.my_endDate[6:]}"
+            else:
+                end = mp.my_endDate
+
+            events.append({
+                "startDate": start,
+                "endDate": end,
+                "eventName": mp.my_eventName,   # 새로 추가된 이벤트 이름 사용
+                "location": mp.my_location,
+                "explain": mp.my_explain,
+                "image": mp.my_image
+            })
+        return render_template('mypage.html', events=events, username=current_user.username)
+
 
     # 즐겨찾기 정보 생성
-    @app.route('/mypage/create', methods=['POST'])
+    @app.route('/mypage/create/<int:no>', methods=['POST'])
     @login_required
-    def create_mypage():
-        event = Event.query.filter_by(no=event.no).first() # 이벤트 Table 검색, event 선택 
-        if event:
-            Event.eventName = request.json['eventName']
-            Event.startDate = request.json['startDate']
-            Event.endDate = request.json['endDate']
-            Event.location = request.json['location']
-            Event.explain = request.json['explain']
-            Event.image = request.json['image']
-        
-            new_mypage = mypage(user_id=current_user.id, mypageName=members.Name) # 현재 로그인한 사용자의 ID추가
+    def create_mypage(no):
+
+        if request.method=='POST': 
+            likes = request.form['likes']
+
+        if likes == '즐겨찾기':
+
+            user = members.query.filter_by(id=current_user.id).first()
+            event = Event.query.filter_by(no=no).first()
+
+            id = user.id
+            name = user.username
+            eventName = event.eventName
+            startDate = event.startDate
+            endDate = event.endDate
+            explain = event.explain
+            location = event.location
+            image = event.image
+
+            new_mypage= mypage(
+                id=id,
+                my_name=name,
+                my_eventName=eventName,
+                my_startDate=startDate,
+                my_endDate=endDate,
+                my_location=location,
+                my_explain=explain,
+                my_image=image
+                )
+            
             db.session.add(new_mypage)
             db.session.commit()
-            return jsonify({'message': 'Mypage created'}), 201
+            return redirect(url_for('home'))
 
-    # mypage 삭제
-    @app.route('/mypage/delete/<int:id>', methods=['DELETE'])
+    # 즐겨찾기 삭제
+    @app.route('/mypage/delete/<eventName>', methods=['POST'])
     @login_required
-    def delete_mypage(id):
-        mypage = mypage.query.filter_by(mypage_id=current_user.id, eventName=mypage.eventName).first() # 현재 로그인한 사용자의 메모만 선택 
-        if mypage:
-            db.session.delete(mypage)
+    def delete_mypage(eventName):
+        my_page = mypage.query.filter_by(my_eventName=eventName, id=current_user.id).first() # 현재 로그인한 사용자의 메모만 선택 
+        if my_page:
+            db.session.delete(my_page)
             db.session.commit()
-            return jsonify({'message': 'Mypage one record deleted'}), 200
+            return redirect(url_for('list_mypage'))
         else:
-            abort(404, decription="Memo not found or not authorized")
+            abort(404, description="Memo not found or not authorized")
     
     # 상세 페이지 정보 가져오기
     @app.route('/detail/<int:no>', methods=['GET','POST'])
     def get_event(no):
         event = Event.query.filter_by(no=no).first()
-        return render_template('detail.html', event=event)
+        return render_template('detail.html', event=event, no=no)
 
     # 이벤트 업로드 페이지
     @app.route('/upload')
@@ -153,40 +199,57 @@ def setup_routes(app):
             return redirect(url_for('home'))
         return render_template('upload.html')
     
-
+    # 이벤트 업로드 페이지
+    @app.route('/detail/<int:no>/update',methods=['POST'])
+    def updatePage(no):
+        event = Event.query.filter_by(no=no).first()
+        return render_template('event_UD.html', event=event, no=no)
+    
     # 이벤트 업데이트 기능
-    @app.route('/detail/<int:no>/update',methods=['PUT','POST'])
+    @app.route('/detail/<int:no>/updating',methods=['PUT','POST'])
     @login_required
     def update_event(no):
         event = Event.query.filter_by(no=no).first()
         if event:
-            eventName = request.form['eventName']
+            event.eventName = request.form['eventName']
             startDate = request.form['startDate']
             endDate = request.form['endDate']
-            location = request.form['location']
-            explain = request.form['explain']
+            event.location = request.form['location']
+            event.explain = request.form['explain']
             image = request.files['image']
             # date를 YYYY-MM-DD 문자열을 python날짜로 변환
-            startDate = datetime.strptime(startDate, '%Y-%m-%d').date()
-            endDate = datetime.strptime(endDate, '%Y-%m-%d').date()
+            event.startDate = datetime.strptime(startDate, '%Y-%m-%d').date()
+            event.endDate = datetime.strptime(endDate, '%Y-%m-%d').date()
             
             # 이미지 저장 & 경로 저장
             if image:
                 file_path = os.path.join(UPLOAD_FOLDER, image.filename)
                 image.save(file_path)
-            post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=image.filename)
-            db.session.add(post)
+            event.image = image.filename
             db.session.commit()
-            return redirect(url_for('detail'))
+            return redirect(url_for('home'))
         return render_template('home.html')
     
     # 이벤트 삭제 기능
-    @app.route('/detail/<int:no>/delete',methods=['DELETE'])
+    @app.route('/detail/<int:no>/delete',methods=['POST'])
     @login_required
     def delete_event(no):
         event = Event.query.filter_by(no=no).first()
         if event:
             db.session.delete(event)
             db.session.commit()
-            return redirect(url_for('detail'))
-        return redirect(url_for('detail'))
+            return redirect(url_for('home'))
+        return redirect(url_for('home'))
+    
+    #회원가입 아이디 증복 확인 기능
+    @app.route('/checkDup', methods=['POST'])
+    def check_dup():
+        data = request.get_json()
+        user_id = data.get('userId')
+        if not user_id:
+            return jsonify({'exists': False})
+        # members 테이블에서 id가 존재하는지 확인
+        exists = members.query.filter_by(id=user_id).first() is not None
+        return jsonify({'exists': exists})
+   
+
