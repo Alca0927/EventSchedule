@@ -53,7 +53,7 @@ def setup_routes(app):
     @login_required
     def logout():
         logout_user()
-        session.pop['user_id', None]
+        session.pop('user_id', None)
         return redirect(url_for('home')) # 로그아웃 후 메인 페이지로 리다이렉트
 
     # 회원가입 페이지
