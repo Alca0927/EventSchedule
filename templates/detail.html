@@ -6,6 +6,15 @@
     <title>이벤트 상세</title>
 </head>
 <body>
+    <header>
+        <h1><a href="/">홈페이지</a></h1>
+        <section>
+            <ul>
+                <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signin">회원가입</a> {% endif %}</li>
+            </ul>
+        </section>
+    </header>
     <h1>전시회 상세 정보</h1>
 
     {% if events %}  <!-- events 리스트가 비어 있지 않다면 -->
