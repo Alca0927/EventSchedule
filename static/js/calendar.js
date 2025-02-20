@@ -115,8 +115,9 @@ function setDate(startDate, endDate, eventName, location, explain, image) {
       
       // 클릭 시 오른쪽 상세 정보 영역 업데이트
       eventBar.addEventListener("click", () => {
-        // image 경로가 절대 경로가 아니면, "/"를 추가하여 절대경로로 변환
+        // image 변수는 my_image 값을 담고 있음 (예: "static/pic/fall.png")
         let imagePath = image;
+        // 경로가 절대경로가 아니라면 앞에 '/' 추가
         if (!imagePath.startsWith("/")) {
           imagePath = "/" + imagePath;
         }
