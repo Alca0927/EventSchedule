@@ -82,26 +82,33 @@ def setup_routes(app):
             return render_template('home.html')
         return redirect(url_for('home')) # 비정상 요청의 경우 리다이렉트
 
-    # 개인 상세페이지 조회 (로그인 성공하면 기존 자신의 즐겨찾기 저장 된 페이지(favorite))
     @app.route('/mypage', methods=['GET'])
     @login_required
     def list_mypage():
-        # user_id 필드가 모델에 없다면, 적절히 필터링하는 코드를 수정해야 합니다.
+        # 현재 로그인한 사용자의 id가 mypage 테이블의 id와 일치한다고 가정
         mypages = mypage.query.filter_by(id=current_user.id).all()
         events = []
         for mp in mypages:
-            # 예: my_startDate와 my_endDate가 "YYYYMMDD" 형식
-            start = f"{mp.my_startDate[:4]}-{mp.my_startDate[4:6]}-{mp.my_startDate[6:]}"
-            end = f"{mp.my_endDate[:4]}-{mp.my_endDate[4:6]}-{mp.my_endDate[6:]}"
+            # 날짜 형식이 "YYYYMMDD"라면 "YYYY-MM-DD"로 변환, 이미 형식이 맞다면 그대로 사용
+            if len(mp.my_startDate) == 8:
+                start = f"{mp.my_startDate[:4]}-{mp.my_startDate[4:6]}-{mp.my_startDate[6:]}"
+            else:
+                start = mp.my_startDate
+            if len(mp.my_endDate) == 8:
+                end = f"{mp.my_endDate[:4]}-{mp.my_endDate[4:6]}-{mp.my_endDate[6:]}"
+            else:
+                end = mp.my_endDate
+
             events.append({
                 "startDate": start,
                 "endDate": end,
-                "eventName": mp.my_name,
+                "eventName": mp.my_eventName,   # 새로 추가된 이벤트 이름 사용
                 "location": mp.my_location,
                 "explain": mp.my_explain,
                 "image": mp.my_image
             })
-        return render_template('mypage.html', events=events, username=current_user.username) 
+        return render_template('mypage.html', events=events, username=current_user.username)
+
 
     # 즐겨찾기 정보 생성
     @app.route('/mypage/create/<int:no>', methods=['POST'])
