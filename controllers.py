@@ -183,7 +183,7 @@ def setup_routes(app):
         return render_template('home.html')
     
     # 이벤트 삭제 기능
-    @app.route('/detail/<int:no>/delete',methods=['DELETE'])
+    @app.route('/delete/<int:no>',methods=['DELETE'])
     @login_required
     def delete_event(no):
         event = Event.query.filter_by(no=no).first()
