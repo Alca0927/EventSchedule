@@ -118,17 +118,17 @@ def setup_routes(app):
             abort(404, decription="Memo not found or not authorized")
     
     # 상세 페이지 정보 가져오기
-    @app.route('/detail', methods=['GET','POST'])
-    def get_event():
-        events = Event.query.all()
-        return render_template('detail.html', events=events)
+    @app.route('/detail/<int:no>', methods=['GET','POST'])
+    def get_event(no):
+        event = Event.query.filter_by(no=no).first()
+        return render_template('detail.html', events=event)
 
-    # 업로드 페이지
+    # 이벤트 업로드 페이지
     @app.route('/upload')
     def uploadPage():
         return render_template('upload.html')
 
-    # 업로드 하는 기능 구현
+    # 이벤트 업로드 하는 기능 구현
     @app.route('/upload/new', methods=['GET','POST'])
     def uploadNew():
         if request.method == 'POST':
@@ -152,3 +152,41 @@ def setup_routes(app):
             db.session.commit()
             return redirect(url_for('home'))
         return render_template('upload.html')
+    
+
+    # 이벤트 업데이트 기능
+    @app.route('/detail/<int:no>/update',methods=['PUT','POST'])
+    @login_required
+    def update_event(no):
+        event = Event.query.filter_by(no=no).first()
+        if event:
+            eventName = request.form['eventName']
+            startDate = request.form['startDate']
+            endDate = request.form['endDate']
+            location = request.form['location']
+            explain = request.form['explain']
+            image = request.files['image']
+            # date를 YYYY-MM-DD 문자열을 python날짜로 변환
+            startDate = datetime.strptime(startDate, '%Y-%m-%d').date()
+            endDate = datetime.strptime(endDate, '%Y-%m-%d').date()
+            
+            # 이미지 저장 & 경로 저장
+            if image:
+                file_path = os.path.join(UPLOAD_FOLDER, image.filename)
+                image.save(file_path)
+            post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=image.filename)
+            db.session.add(post)
+            db.session.commit()
+            return redirect(url_for('detail'))
+        return render_template('home.html')
+    
+    # 이벤트 삭제 기능
+    @app.route('/detail/<int:no>/delete',methods=['DELETE'])
+    @login_required
+    def delete_event(no):
+        event = Event.query.filter_by(no=no).first()
+        if event:
+            db.session.delete(event)
+            db.session.commit()
+            return redirect(url_for('detail'))
+        return redirect(url_for('detail'))

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 수정 및 삭제</title>
+</head>
+<body>
+    <header>
+        <h1><a href="/">홈페이지</a></h1>
+        <section>
+            <ul>
+                <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signin">회원가입</a> {% endif %}</li>
+            </ul>
+        </section>
+    </header>
+    <section>
+
+    </section>
+</body>
+</html>
