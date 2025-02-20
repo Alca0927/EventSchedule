@@ -14,24 +14,40 @@ function renderCalendar() {
   currentMonthElement.textContent = `${currentYear}년 ${currentMonth + 1}월`;
   calendarDates.innerHTML = "";
 
+  // 시작 요일 이전의 빈 셀 생성
   for (let i = 0; i < startDayOfWeek; i++) {
     const emptyDate = document.createElement("div");
     emptyDate.classList.add("date", "empty");
     calendarDates.appendChild(emptyDate);
   }
 
-
+  // 날짜 셀 생성
   for (let i = 1; i <= daysInMonth; i++) {
     const dateElement = document.createElement("div");
     dateElement.classList.add("date");
     dateElement.textContent = i;
     calendarDates.appendChild(dateElement);
   }
-
 }
 
-renderCalendar();
+// 이벤트 데이터를 달력에 적용하는 함수
+function updateCalendarEvents() {
+  // myEvents는 템플릿에서 전달받은 배열입니다.
+  myEvents.forEach(event => {
+    setDate(
+      event.startDate, 
+      event.endDate, 
+      event.eventName, 
+      event.location, 
+      event.explain, 
+      event.image
+    );
+  });
+}
 
+// 최초 달력 렌더링 및 이벤트 적용
+renderCalendar();
+updateCalendarEvents();
 
 prevBtn.addEventListener("click", () => {
   currentMonth--;
@@ -40,23 +56,8 @@ prevBtn.addEventListener("click", () => {
     currentYear--;
   }
   renderCalendar();
-
-  const events = [
-    { startDate: "2025-02-10", endDate: "2025-02-18", eventName: "행사 A" },
-    { startDate: "2025-02-08", endDate: "2025-02-12", eventName: "행사 B" },
-    { startDate: "2025-02-15", endDate: "2025-02-18", eventName: "행사 C" },
-    { startDate: "2025-05-11", endDate: "2025-05-25", eventName: "행사 D" }
-  ];//버튼을 눌러 새롭게 달력이 생성되도 이벤트 값이 들어가도록 <-임시로 들어가 있는 데이터
-  
-  // 시작일 기준 오름차순 정렬
-  events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-  
-  // 이벤트마다 setDate 호출
-  events.forEach(event => {
-    setDate(event.startDate, event.endDate, event.eventName);
-  });
+  updateCalendarEvents(); // 새 달력에 다시 이벤트 적용
 });
-
 
 nextBtn.addEventListener("click", () => {
   currentMonth++;
@@ -65,40 +66,34 @@ nextBtn.addEventListener("click", () => {
     currentYear++;
   }
   renderCalendar();
-  const events = [
-    { startDate: "2025-02-10", endDate: "2025-02-18", eventName: "행사 A" },
-    { startDate: "2025-02-08", endDate: "2025-02-12", eventName: "행사 B" },
-    { startDate: "2025-02-15", endDate: "2025-02-18", eventName: "행사 C" },
-    { startDate: "2025-05-11", endDate: "2025-05-25", eventName: "행사 D" }
-  ]; ///버튼을 눌러 새롭게 달력이 생성되도 이벤트 값이 들어가도록 <-임시로 들어가 있는 데이터
-  
-  // 시작일 기준 오름차순 정렬 (빠른 이벤트가 위로 오도록)
-  events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-  
-  // 이벤트마다 setDate 호출
-  events.forEach(event => {
-    setDate(event.startDate, event.endDate, event.eventName);
-  });
+  updateCalendarEvents(); // 새 달력에 다시 이벤트 적용
 });
 
-function setDate(startDate, endDate, eventName) {   //이벤트 표시 함수
-  // "YYYY-MM-DD" 형식의 문자열을 Date 객체로 변환
+/**
+ * setDate: 지정한 날짜 범위에 해당하는 달력 셀에 이벤트 표시를 추가
+ * @param {string} startDate - "YYYY-MM-DD" 형식의 시작 날짜
+ * @param {string} endDate - "YYYY-MM-DD" 형식의 종료 날짜
+ * @param {string} eventName - 행사 이름
+ * @param {string} location - 행사 위치
+ * @param {string} explain - 행사 설명
+ * @param {string} image - 행사 이미지 URL
+ */
+function setDate(startDate, endDate, eventName, location, explain, image) {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  // 랜덤 색상 배열 - 파스텔 계열
-  const colors = ['#F15F5F', '#F29661', '#F2CB61', '#E5D85C', '#BCE55C',
-    '#86E57F', '#5CD1E5', '#6799FF', '#6B66FF','#A566FF', '#F361DC', '#F361A6', ];
+  // 랜덤 색상 배열
+  const colors = ['#F15F5F', '#F29661', '#F2CB61', '#E5D85C', '#BCE55C', '#86E57F'];
   const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
-  // 달력에서 날짜 셀(.date에서 .empty 제외)을 선택
+  // 달력에서 날짜 셀(.date 중 .empty 제외)을 선택
   const dateCells = calendarDates.querySelectorAll('.date:not(.empty)');
   dateCells.forEach(cell => {
-    // 셀에 표시된 숫자를 바탕으로 날짜 객체 생성 (현재 달과 연도 기준)
+    // 셀의 숫자(일)를 바탕으로 현재 달의 날짜 객체 생성
     const day = parseInt(cell.textContent, 10);
     const cellDate = new Date(currentYear, currentMonth, day);
 
-    // 만약 셀의 날짜가 이벤트 기간에 포함된다면
+    // 셀 날짜가 이벤트 기간에 포함되면
     if (cellDate >= start && cellDate <= end) {
       // 이벤트 표시용 요소 생성
       const eventBar = document.createElement("div");
@@ -112,18 +107,29 @@ function setDate(startDate, endDate, eventName) {   //이벤트 표시 함수
       eventBar.style.fontSize = "10px";
       eventBar.style.textAlign = "center";
       
-      // 이벤트 시작일의 타임스탬프를 data 속성에 저장(
+      // 시작일 타임스탬프 (정렬 기준) 및 추가 데이터 저장
       eventBar.dataset.start = start.getTime();
+      eventBar.dataset.location = location;
+      eventBar.dataset.explain = explain;
+      eventBar.dataset.image = image;
+      
+      // 클릭 시 오른쪽 상세 정보 영역 업데이트
+      eventBar.addEventListener("click", () => {
+        document.getElementById("detailImage").src = image;
+        document.getElementById("detailEventName").textContent = eventName;
+        document.getElementById("detailLocation").textContent = "위치: " + location;
+        document.getElementById("detailExplain").textContent = "설명: " + explain;
+      });
 
-      // 동일 셀 내에 이미 추가된 이벤트들 중 적절한 위치에 삽입하여 오름차순 정렬
-      const existingEventBars = cell.querySelectorAll(".event");
-      if (existingEventBars.length === 0) {
+      // 동일 셀 내에 이미 추가된 이벤트들 사이에 시작일 기준 오름차순 정렬로 삽입
+      const existingEvents = cell.querySelectorAll(".event");
+      if (existingEvents.length === 0) {
         cell.appendChild(eventBar);
       } else {
         let inserted = false;
-        existingEventBars.forEach(existingBar => {
-          if (!inserted && parseInt(existingBar.dataset.start) > start.getTime()) {
-            cell.insertBefore(eventBar, existingBar);
+        existingEvents.forEach(existingEvent => {
+          if (!inserted && parseInt(existingEvent.dataset.start) > start.getTime()) {
+            cell.insertBefore(eventBar, existingEvent);
             inserted = true;
           }
         });
@@ -134,30 +140,3 @@ function setDate(startDate, endDate, eventName) {   //이벤트 표시 함수
     }
   });
 }
-
-function detailEvent(startDate, endDate, eventName, location, explain, image){ //이벤트 디테일 표시 함수
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const Name = new Date(eventName);
-  const Location = new Date(location);
-  const Explain = new Date(explain);
-  const Image = new Date(image);
-
-  
-
-}
-
-const events = [
-  { startDate: "2025-02-10", endDate: "2025-02-18", eventName: "행사 A" },
-  { startDate: "2025-02-08", endDate: "2025-02-12", eventName: "행사 B" },
-  { startDate: "2025-02-15", endDate: "2025-02-18", eventName: "행사 C" },
-  { startDate: "2025-05-11", endDate: "2025-05-25", eventName: "행사 D" }
-];//임시로 들어간 있는 데이터
-
-// 시작일 기준 오름차순 정렬
-events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-
-// 이벤트마다 setDate 호출
-events.forEach(event => {
-  setDate(event.startDate, event.endDate, event.eventName);
-});
