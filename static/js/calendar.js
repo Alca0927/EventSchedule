@@ -121,6 +121,7 @@ function setDate(startDate, endDate, eventName, location, explain, image) {
         document.getElementById("detailEventName").textContent = eventName;
         document.getElementById("detailLocation").textContent = "위치: " + location;
         document.getElementById("detailExplain").textContent = "설명: " + explain;
+        document.getElementById("deleteEventName").action = "/mypage/delete/" + eventName;
       });
 
       // 동일 셀 내에 이미 추가된 이벤트들 사이에 시작일 기준 오름차순 정렬로 삽입

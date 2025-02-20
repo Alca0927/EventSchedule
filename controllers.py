@@ -147,17 +147,17 @@ def setup_routes(app):
             db.session.commit()
             return redirect(url_for('home'))
 
-    # mypage 삭제
-    @app.route('/mypage/delete/<int:id>', methods=['DELETE'])
+    # 즐겨찾기 삭제
+    @app.route('/mypage/delete/<eventName>', methods=['POST'])
     @login_required
-    def delete_mypage(id):
-        mypage = mypage.query.filter_by(mypage_id=current_user.id, eventName=mypage.eventName).first() # 현재 로그인한 사용자의 메모만 선택 
-        if mypage:
-            db.session.delete(mypage)
+    def delete_mypage(eventName):
+        my_page = mypage.query.filter_by(my_eventName=eventName, id=current_user.id).first() # 현재 로그인한 사용자의 메모만 선택 
+        if my_page:
+            db.session.delete(my_page)
             db.session.commit()
-            return jsonify({'message': 'Mypage one record deleted'}), 200
+            return redirect(url_for('list_mypage'))
         else:
-            abort(404, decription="Memo not found or not authorized")
+            abort(404, description="Memo not found or not authorized")
     
     # 상세 페이지 정보 가져오기
     @app.route('/detail/<int:no>', methods=['GET','POST'])
