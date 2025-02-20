@@ -85,9 +85,23 @@ def setup_routes(app):
     # 개인 상세페이지 조회 (로그인 성공하면 기존 자신의 즐겨찾기 저장 된 페이지(favorite))
     @app.route('/mypage', methods=['GET'])
     @login_required
-    def list_mypage() :
-        mypages = mypage.query.filter_by(user_id=current_user.id).all() # 현재 로그인한 사용자의 즐겨찾기 저장된 것만 조회
-        return render_template('mypage.html', mypages=mypages, username=current_user.username) # 사용자별 즐겨찾기 저장된 정보 표시 렌더링 
+    def list_mypage():
+        # user_id 필드가 모델에 없다면, 적절히 필터링하는 코드를 수정해야 합니다.
+        mypages = mypage.query.filter_by(id=current_user.id).all()
+        events = []
+        for mp in mypages:
+            # 예: my_startDate와 my_endDate가 "YYYYMMDD" 형식
+            start = f"{mp.my_startDate[:4]}-{mp.my_startDate[4:6]}-{mp.my_startDate[6:]}"
+            end = f"{mp.my_endDate[:4]}-{mp.my_endDate[4:6]}-{mp.my_endDate[6:]}"
+            events.append({
+                "startDate": start,
+                "endDate": end,
+                "eventName": mp.my_name,
+                "location": mp.my_location,
+                "explain": mp.my_explain,
+                "image": mp.my_image
+            })
+        return render_template('mypage.html', events=events, username=current_user.username) 
 
     # 즐겨찾기 정보 생성
     @app.route('/mypage/create', methods=['POST'])
