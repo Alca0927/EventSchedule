@@ -16,10 +16,8 @@
         </section>
     </header>
     <h1>전시회 상세 정보</h1>
-
-    {% if events %}  <!-- events 리스트가 비어 있지 않다면 -->
-        {% set event = events[0] %}  <!-- 첫 번째 이벤트만 선택 -->
-        
+    <section>
+        {% if event %} 
         <div class="event">
 
             {% if event.image %}
@@ -33,9 +31,18 @@
             <h4 class="location">{{ event.location }}</h4>
             <h5 class="explain">{{ event.explain }}</h5>
         </div>
+        <div>
+            <form method="POST">
+                <button type="submit"></button>
+            </form>
+            <form>
+
+            </form>
+        </div>
+        {% else %}  <!-- events 리스트가 비어 있다면 -->
+            <p>현재 진행 중인 전시회가 없습니다.</p>
+        {% endif %}
+    </section>
     
-    {% else %}  <!-- events 리스트가 비어 있다면 -->
-        <p>현재 진행 중인 전시회가 없습니다.</p>
-    {% endif %}
 </body>
 </html>

@@ -16,7 +16,38 @@
         </section>
     </header>
     <section>
-
+        <div>
+            <!-- 🚀 enctype 추가: 파일 업로드 시 필수 -->
+            <form action="upload/new" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label for="eventName">행사 이름:</label>
+                    <input type="text" id="eventName" name="eventName" required>
+                </div>
+                <div>
+                    <label for="startDate">행사 시작일:</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+                <div>
+                    <label for="endDate">행사 종료일:</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                </div>
+                <div>
+                    <label for="location">행사 장소:</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+                <div>
+                    <label for="explain">설 명:</label>
+                    <textarea id="explain" name="explain" required></textarea>
+                </div>
+                <div>
+                    <label for="image">이미지 업로드:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div>
+                    <button type="submit" id="submit_button">수정</button>
+                </div>
+            </form>
+        </div>
     </section>
 </body>
 </html>
