@@ -123,7 +123,7 @@ def setup_routes(app):
     @app.route('/detail/<int:no>', methods=['GET','POST'])
     def get_event(no):
         event = Event.query.filter_by(no=no).first()
-        return render_template('detail.html', event=event)
+        return render_template('detail.html', event=event, no=no)
 
     # 이벤트 업로드 페이지
     @app.route('/upload')
@@ -155,40 +155,44 @@ def setup_routes(app):
             return redirect(url_for('home'))
         return render_template('upload.html')
     
-
+    # 이벤트 업로드 페이지
+    @app.route('/detail/<int:no>/update',methods=['POST'])
+    def updatePage(no):
+        event = Event.query.filter_by(no=no).first()
+        return render_template('event_UD.html', event=event, no=no)
+    
     # 이벤트 업데이트 기능
-    @app.route('/detail/<int:no>/update',methods=['PUT','POST'])
+    @app.route('/detail/<int:no>/updating',methods=['PUT','POST'])
     @login_required
     def update_event(no):
         event = Event.query.filter_by(no=no).first()
         if event:
-            eventName = request.form['eventName']
+            event.eventName = request.form['eventName']
             startDate = request.form['startDate']
             endDate = request.form['endDate']
-            location = request.form['location']
-            explain = request.form['explain']
+            event.location = request.form['location']
+            event.explain = request.form['explain']
             image = request.files['image']
             # date를 YYYY-MM-DD 문자열을 python날짜로 변환
-            startDate = datetime.strptime(startDate, '%Y-%m-%d').date()
-            endDate = datetime.strptime(endDate, '%Y-%m-%d').date()
+            event.startDate = datetime.strptime(startDate, '%Y-%m-%d').date()
+            event.endDate = datetime.strptime(endDate, '%Y-%m-%d').date()
             
             # 이미지 저장 & 경로 저장
             if image:
                 file_path = os.path.join(UPLOAD_FOLDER, image.filename)
                 image.save(file_path)
-            post = Event(eventName=eventName, startDate=startDate, endDate=endDate, location=location, explain=explain, image=image.filename)
-            db.session.add(post)
+            event.image = image.filename
             db.session.commit()
-            return redirect(url_for('detail'))
+            return redirect(url_for('home'))
         return render_template('home.html')
     
     # 이벤트 삭제 기능
-    @app.route('/delete/<int:no>',methods=['DELETE'])
+    @app.route('/detail/<int:no>/delete',methods=['POST'])
     @login_required
     def delete_event(no):
         event = Event.query.filter_by(no=no).first()
         if event:
             db.session.delete(event)
             db.session.commit()
-            return redirect(url_for('detail'))
-        return redirect(url_for('detail'))
+            return redirect(url_for('home'))
+        return redirect(url_for('home'))
