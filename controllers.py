@@ -41,11 +41,15 @@ def setup_routes(app):
 
             user = members.query.filter_by(id=id).first()
             
-            if password == user.password_hash:
-                login_user(user)
-                session['user_id'] = user.id
-                return redirect(url_for('home'))
-            return jsonify({'error': '아이디가 없거나 패스워드가 다릅니다.'}), 400
+            if id != user.id:
+                return render_template("signin.html", message="아이디를 확인하세요.")
+            else:
+                if password == user.password_hash:
+                    login_user(user)
+                    session['user_id'] = user.id
+                    return redirect(url_for('home'))
+                else:
+                    return render_template("signin.html", message="패스워드가 다릅니다.")
         return redirect(url_for('home'))
 
     # 로그아웃 기능
@@ -82,56 +86,82 @@ def setup_routes(app):
             return render_template('home.html')
         return redirect(url_for('home')) # 비정상 요청의 경우 리다이렉트
 
-    # 개인 상세페이지 조회 (로그인 성공하면 기존 자신의 즐겨찾기 저장 된 페이지(favorite))
     @app.route('/mypage', methods=['GET'])
     @login_required
     def list_mypage():
-        # user_id 필드가 모델에 없다면, 적절히 필터링하는 코드를 수정해야 합니다.
+        # 현재 로그인한 사용자의 id가 mypage 테이블의 id와 일치한다고 가정
         mypages = mypage.query.filter_by(id=current_user.id).all()
         events = []
         for mp in mypages:
-            # 예: my_startDate와 my_endDate가 "YYYYMMDD" 형식
-            start = f"{mp.my_startDate[:4]}-{mp.my_startDate[4:6]}-{mp.my_startDate[6:]}"
-            end = f"{mp.my_endDate[:4]}-{mp.my_endDate[4:6]}-{mp.my_endDate[6:]}"
+            # 날짜 형식이 "YYYYMMDD"라면 "YYYY-MM-DD"로 변환, 이미 형식이 맞다면 그대로 사용
+            if len(mp.my_startDate) == 8:
+                start = f"{mp.my_startDate[:4]}-{mp.my_startDate[4:6]}-{mp.my_startDate[6:]}"
+            else:
+                start = mp.my_startDate
+            if len(mp.my_endDate) == 8:
+                end = f"{mp.my_endDate[:4]}-{mp.my_endDate[4:6]}-{mp.my_endDate[6:]}"
+            else:
+                end = mp.my_endDate
+
             events.append({
                 "startDate": start,
                 "endDate": end,
-                "eventName": mp.my_name,
+                "eventName": mp.my_eventName,   # 새로 추가된 이벤트 이름 사용
                 "location": mp.my_location,
                 "explain": mp.my_explain,
                 "image": mp.my_image
             })
-        return render_template('mypage.html', events=events, username=current_user.username) 
+        return render_template('mypage.html', events=events, username=current_user.username)
+
 
     # 즐겨찾기 정보 생성
-    @app.route('/mypage/create', methods=['POST'])
+    @app.route('/mypage/create/<int:no>', methods=['POST'])
     @login_required
-    def create_mypage():
-        event = Event.query.filter_by(no=event.no).first() # 이벤트 Table 검색, event 선택 
-        if event:
-            Event.eventName = request.json['eventName']
-            Event.startDate = request.json['startDate']
-            Event.endDate = request.json['endDate']
-            Event.location = request.json['location']
-            Event.explain = request.json['explain']
-            Event.image = request.json['image']
-        
-            new_mypage = mypage(user_id=current_user.id, mypageName=members.Name) # 현재 로그인한 사용자의 ID추가
+    def create_mypage(no):
+
+        if request.method=='POST': 
+            likes = request.form['likes']
+
+        if likes == '즐겨찾기':
+
+            user = members.query.filter_by(id=current_user.id).first()
+            event = Event.query.filter_by(no=no).first()
+
+            id = user.id
+            name = user.username
+            eventName = event.eventName
+            startDate = event.startDate
+            endDate = event.endDate
+            explain = event.explain
+            location = event.location
+            image = event.image
+
+            new_mypage= mypage(
+                id=id,
+                my_name=name,
+                my_eventName=eventName,
+                my_startDate=startDate,
+                my_endDate=endDate,
+                my_location=location,
+                my_explain=explain,
+                my_image=image
+                )
+            
             db.session.add(new_mypage)
             db.session.commit()
-            return jsonify({'message': 'Mypage created'}), 201
+            return redirect(url_for('home'))
 
-    # mypage 삭제
-    @app.route('/mypage/delete/<int:id>', methods=['DELETE'])
+    # 즐겨찾기 삭제
+    @app.route('/mypage/delete/<eventName>', methods=['POST'])
     @login_required
-    def delete_mypage(id):
-        mypage = mypage.query.filter_by(mypage_id=current_user.id, eventName=mypage.eventName).first() # 현재 로그인한 사용자의 메모만 선택 
-        if mypage:
-            db.session.delete(mypage)
+    def delete_mypage(eventName):
+        my_page = mypage.query.filter_by(my_eventName=eventName, id=current_user.id).first() # 현재 로그인한 사용자의 메모만 선택 
+        if my_page:
+            db.session.delete(my_page)
             db.session.commit()
-            return jsonify({'message': 'Mypage one record deleted'}), 200
+            return redirect(url_for('list_mypage'))
         else:
-            abort(404, decription="Memo not found or not authorized")
+            abort(404, description="Memo not found or not authorized")
     
     # 상세 페이지 정보 가져오기
     @app.route('/detail/<int:no>', methods=['GET','POST'])
@@ -222,3 +252,4 @@ def setup_routes(app):
         exists = members.query.filter_by(id=user_id).first() is not None
         return jsonify({'exists': exists})
    
+

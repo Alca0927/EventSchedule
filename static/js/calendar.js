@@ -83,7 +83,7 @@ function setDate(startDate, endDate, eventName, location, explain, image) {
   const end = new Date(endDate);
 
   // 랜덤 색상 배열
-  const colors = ['#F15F5F', '#F29661', '#F2CB61', '#E5D85C', '#BCE55C', '#86E57F'];
+  const colors = ['#F15F5F', '#F29661', '#F2CB61', '#E5D85C', '#BCE55C', '#86E57F', '#FFD8D8','#FAF4C0','#CEFBC9','#DAD9FF'];
   const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
   // 달력에서 날짜 셀(.date 중 .empty 제외)을 선택
@@ -117,14 +117,11 @@ function setDate(startDate, endDate, eventName, location, explain, image) {
       eventBar.addEventListener("click", () => {
         // image 변수는 my_image 값을 담고 있음 (예: "static/pic/fall.png")
         let imagePath = image;
-        // 경로가 절대경로가 아니라면 앞에 '/' 추가
-        if (!imagePath.startsWith("/")) {
-          imagePath = "/" + imagePath;
-        }
-        document.getElementById("detailImage").src = imagePath;
+        document.getElementById("detailImage").src = 'static/pic/'+ imagePath;
         document.getElementById("detailEventName").textContent = eventName;
         document.getElementById("detailLocation").textContent = "위치: " + location;
         document.getElementById("detailExplain").textContent = "설명: " + explain;
+        document.getElementById("deleteEventName").action = "/mypage/delete/" + eventName;
       });
 
       // 동일 셀 내에 이미 추가된 이벤트들 사이에 시작일 기준 오름차순 정렬로 삽입

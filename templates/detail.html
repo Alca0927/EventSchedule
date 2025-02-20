@@ -10,8 +10,9 @@
         <h1><a href="/">홈페이지</a></h1>
         <section>
             <ul>
+                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
                 <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signin">회원가입</a> {% endif %}</li>
+                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
             </ul>
         </section>
     </header>
@@ -40,8 +41,8 @@
                 <button type="submit">삭제</button>
             </form>
             {% elif session.user_id %}
-            <form method="POST" action="/favorites">
-                <button type="submit">즐겨찾기</button>
+            <form method="POST" action="/mypage/create/{{no}}">
+                <input type="submit" name="likes" value="즐겨찾기">
             </form>
             {% else %}
             {% endif %}
