@@ -37,7 +37,7 @@
       </div>
   </section>
 
-  <script src="/static/js/calendar.js"></script>
+  
 
   <script>
     const myEvents = JSON.parse(`{{ events | tojson | safe }}`);
@@ -49,6 +49,7 @@
       setDate(event.startDate, event.endDate, event.eventName, event.location, event.explain, event.image);
     });
   </script>
+  <script src="/static/js/calendar.js"></script>
   
 </body>
 </html>
