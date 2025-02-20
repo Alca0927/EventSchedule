@@ -41,12 +41,15 @@ def setup_routes(app):
 
             user = members.query.filter_by(id=id).first()
             
-            if password == user.password_hash:
-                login_user(user)
-                session['user_id'] = user.id
-                return redirect(url_for('home'))
+            if id != user.id:
+                return render_template("signin.html", message="아이디를 확인하세요.")
             else:
-                return render_template("signin.html", message="아이디가 없거나 패스워드가 다릅니다.")
+                if password == user.password_hash:
+                    login_user(user)
+                    session['user_id'] = user.id
+                    return redirect(url_for('home'))
+                else:
+                    return render_template("signin.html", message="패스워드가 다릅니다.")
         return redirect(url_for('home'))
 
     # 로그아웃 기능
