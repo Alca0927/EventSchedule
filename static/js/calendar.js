@@ -100,7 +100,7 @@ function setDate(startDate, endDate, eventName, location, explain, image) {
       eventBar.classList.add("event");
       eventBar.textContent = eventName;
       eventBar.style.backgroundColor = randomColor;
-      eventBar.style.height = "10px";
+      eventBar.style.height = "20px";
       eventBar.style.marginTop = "5px";
       eventBar.style.borderRadius = "2px";
       eventBar.style.color = "white";
@@ -115,7 +115,12 @@ function setDate(startDate, endDate, eventName, location, explain, image) {
       
       // 클릭 시 오른쪽 상세 정보 영역 업데이트
       eventBar.addEventListener("click", () => {
-        document.getElementById("detailImage").src = image;
+        // image 경로가 절대 경로가 아니면, "/"를 추가하여 절대경로로 변환
+        let imagePath = image;
+        if (!imagePath.startsWith("/")) {
+          imagePath = "/" + imagePath;
+        }
+        document.getElementById("detailImage").src = imagePath;
         document.getElementById("detailEventName").textContent = eventName;
         document.getElementById("detailLocation").textContent = "위치: " + location;
         document.getElementById("detailExplain").textContent = "설명: " + explain;
