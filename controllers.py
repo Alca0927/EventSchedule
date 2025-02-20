@@ -121,7 +121,7 @@ def setup_routes(app):
     @app.route('/detail/<int:no>', methods=['GET','POST'])
     def get_event(no):
         event = Event.query.filter_by(no=no).first()
-        return render_template('detail.html', events=event)
+        return render_template('detail.html', event=event)
 
     # 이벤트 업로드 페이지
     @app.route('/upload')
