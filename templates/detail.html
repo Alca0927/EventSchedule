@@ -3,36 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/detail.css">
     <title>이벤트 상세</title>
 </head>
 <body>
     <header>
-        <h1><a href="/">홈페이지</a></h1>
+        <h1 class="home"><a href="/">개발의 민족</a></h1>
         <section>
-            <ul>
-                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
-                <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
+            <ul class="menu">
+                <li class="menu1">{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                <li class="menu2">{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signin">회원가입</a> {% endif %}</li>
             </ul>
         </section>
     </header>
-    <h1>전시회 상세 정보</h1>
     <section>
         {% if event %} 
+
         <div class="event">
 
             {% if event.image %}
-                <img src="{{url_for('static', filename='pic/' + event.image)}}" alt="이벤트 이미지" style="max-width: 300px;">
+                <img src="{{url_for('static', filename='pic/' + event.image)}}" alt="이벤트 이미지">
             {% else %}
                 <p>이미지 없음</p>
             {% endif %}
 
-            <h2 class="eventName">{{ event.eventName }}</h2>
-            <h4 class="date">{{ event.startDate }} ~ {{ event.endDate }}</h4>
-            <h4 class="location"><a href="https://map.kakao.com/link/search/{{event.location}}">{{ event.location }}</a></h4>
-            <h5 class="explain">{{ event.explain }}</h5>
+
+            <div class="databox"></div>
+
+            <div class="data">
+                <h1 class="eventName">{{ event.eventName }}</h1>
+            
+                <h4 class="date">{{ event.startDate }} ~ {{ event.endDate }}</h4>
+                
+                <h4 class="location"><a href="https://map.kakao.com/link/search/{{event.location}}">{{ event.location }}</a></h4>
+                
+                <h5 class="explain">{{ event.explain }}</h5>
+            </div>
+            
+            
+
+            
         </div>
-        <div>
+        <div class="button">
+
             {% if session.user_id == "admit" %}
             <form method="POST" action="/detail/{{no}}/update">
                 <button type="submit">수정</button>
@@ -43,13 +56,21 @@
             {% elif session.user_id %}
             <form method="POST" action="/mypage/create/{{no}}">
                 <input type="submit" name="likes" value="즐겨찾기">
-
             </form>
             {% else %}
             {% endif %}
-        {% endif %}
         </div>
+        {% else %}  <!-- events 리스트가 비어 있다면 -->
+            <p>현재 진행 중인 전시회가 없습니다.</p>
+
+        {% endif %}
     </section>
+    <footer>
+        <section>
+
+        </section>
+
+    </footer>
     
 </body>
 </html>

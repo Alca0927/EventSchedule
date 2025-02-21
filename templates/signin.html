@@ -10,59 +10,143 @@
         }
     </script>
     <style>
-        body { font-family: arial, sans-serif;}
-        .container {
-            width: 300px;
-            margin: auto;
-            border: 1px solid #ddd;
-            padding: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .form-group {
-            margin-bottom: 10px;
+
+        a {
+            color: #191717; /* 기본 링크 색상 */
+            text-decoration: none; /* 밑줄 제거 */
         }
-        .form-group label, .form-group input {
-            display: block;
+
+        a:visited, a:active{
+            color: #191717;
+            text-decoration: none;
+        }
+
+        header{
+            background-color:#F1EFEF;
             width: 100%;
+            height: 100px;
+            color: #191717;
         }
-        .form-group input {
-            padding: 5px;
-            margin-top: 5px;
+
+        .home{
+            position: fixed;
+            top: 3%;
+            left: 5%;
         }
-        .buttons {
+
+        .menu{
+            position:fixed;
+            top:5%;
+            right:10%;
             display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+            list-style: none;
         }
+        
+        .menu1{
+            position: fixed;
+        }
+
+        .menu2{
+            position: fixed;
+            left: 42%;
+            bottom: 37%;
+            font-size: small;
+
+        }
+
+        .menu3{
+            position: fixed;
+            left: 46%;
+            bottom: 37%;
+            font-size: small;
+        }
+        .menu4{
+            position: fixed;
+            left: 52%;
+            bottom: 37%;
+            font-size: small;
+
+        }
+
+        footer{
+            background-color:#CCC8AA;
+            width: 100%;
+            height: 100px;
+            color: #191717;
+            bottom: 0;
+            position: fixed;
+        }
+
+        .container{
+            display: flex;
+            position: fixed;
+            top: 45%;
+            right: 45%;
+        }
+
+        #id, #password{
+            position: relative;
+            width: 200px;
+            height: 50px;
+        }
+
+        #button {
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            margin-top: -50px;
+        }
+
+        .login{
+            position:fixed;
+            left: 40%;
+            top: 37%;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* 전체 화면을 채우는 iframe */
+        .background-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: none; /* 테두리 제거 */
+        }
+
     </style>
 </head>
 <body>
-    <header>
-        <h1><a href="/">홈페이지</a></h1>
-        <section>
-            <ul>
-                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
-                <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
-            </ul>
-        </section>
-    </header>
-    <div class="container">
-        <h1>이벤트 정보사이트에 오신 것을 환영합니다!</h1>
 
-        <h2>로그인 페이지</h2>
-        <!-- 로그인 페이지 -->
+    
+
+    <header>
+        <h1 class="home"><a href="/">개발의 민족</a></h1>
+    </header>
+    
+    <iframe style="height: 500px;" class="background-frame" src="/static/slideshow.html"></iframe>
+    
+    <div class="container">
+        <h2 class="login">로그인</h2>
+        <ul class="menu">
+            <li class="menu1">{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
+            <li class="menu2"><a href="/signup">회원가입</a></li>
+        </ul>
         <form action="/loginTry" id="loginForm" method="POST">
-            <div class="form group">
-                <label for="userid">사용자 계정:</label>
-                <input type="text" id="id" name="id">
-            </div>
-            <div class="form group">
-                <label for="password">비밀 번호 :</label>
-                <input type="password" id="password" name="password">
-            </div>
-            <div class="buttons">
-                <input type="submit" value="로그인">
-            </div>
+            <input type="text" id="id" name="id" placeholder="&nbsp;아이디">
+            <br>
+            <input type="password" id="password" name="password" placeholder="&nbsp;비밀번호">
+            <input type="submit" id="button" value="로그인">
         </form>
     </div>
     {% if message %}
@@ -70,6 +154,11 @@
         showAlert("{{ message}}");
     </script>
     {% endif %}
+    <footer>
+
+    </footer>
+
+    
 </body>
 
 </html>
