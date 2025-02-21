@@ -3,104 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        a {
-            color: #191717; /* 기본 링크 색상 */
-            text-decoration: none; /* 밑줄 제거 */
-        }
-
-        a:visited, a:active{
-            color: #191717;
-            text-decoration: none;
-        }
-
-        header{
-            background-color:#F1EFEF;
-            width: 100%;
-            height: 100px;
-            color: #191717;
-        }
-        
-        img{
-            position: fixed;
-            max-width: 300px;
-            right: 50%;
-            top:20%;
-        }
-
-        .explain{
-            width: 300px;
-        }
-
-        .event{
-            text-align: center;
-            
-        }
-
-        .databox{
-            position: fixed;
-            width: 25%;
-            height: 50%;
-            background-color: #7D7C7C;
-            right: 25%;
-            top:25%;
-            opacity: 0.5; /* 전체 투명도 50% */
-
-        }
-
-        .data{
-            position: fixed;
-            width: 50%;
-            top: 30%;
-            left: 53%;
-            text-align: left;
-            color: #191717;
-            
-        }
-
-        .home{
-            position: fixed;
-            top: 3%;
-            left: 5%;
-        }
-
-        .menu{
-            position:fixed;
-            top:5%;
-            right:10%;
-            display: flex;
-            list-style: none;
-        }
-
-        .menu2{
-            position: relative;
-            left: 50%;
-        }
-
-        .button{
-            position: fixed;
-            bottom: 20%;
-            right:17%;
-
-        }
-
-        footer{
-            background-color:#CCC8AA;
-            width: 100%;
-            height: 100px;
-            color: #191717;
-            bottom: 0;
-            position: fixed;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/static/css/detail.css">
     <title>이벤트 상세</title>
 </head>
 <body>
@@ -128,11 +31,11 @@
 
             <div class="data">
                 <h1 class="eventName">{{ event.eventName }}</h1>
-                <br>
+            
                 <h4 class="date">{{ event.startDate }} ~ {{ event.endDate }}</h4>
-                <br>
+                
                 <h4 class="location">{{ event.location }}</h4>
-                <br>
+                
                 <h5 class="explain">{{ event.explain }}</h5>
             </div>
             
