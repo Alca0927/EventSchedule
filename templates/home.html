@@ -9,7 +9,7 @@
 <body>
     <header>
         <!-- 헤더 -->
-        <h1><a href="/" id='home'>홈페이지</a></h1>
+        <h1><a href="/" id='home'>개발의 민족</a></h1>
         <section class="headerLeft">
             <div>
                 <form action="searchEvent" method="POST">
@@ -26,33 +26,27 @@
             </div>
         </section>
     </header>
-    <section>  
-        <!-- 본문 -->
-        <div class="eventContainer">
-            {% for event in events %}
-            <ul class="eventItem">
-                <li>
-                    <table>
-                        <tr>
-                            <td>
-                                <a href="/detail/{{event.no}}">
-                                    <img src="{{url_for('static', filename='pic/' + event.image)}}" class="eventImage" alt="{{event.eventName}}">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a href="/detail/{{event.no}}">{{event.eventName}}</a>
-                            </td>
-                        </tr>
-                    </table>
-                </li>
-            </ul>
-            {% endfor %}
+
+
+    <section class="slider-container">
+        <button class="prev">❮</button>
+        <div class="slider-wrapper">
+            <div class="slider">
+                {% for event in events %}
+                <div class="eventItem">
+                    <a href="/detail/{{ event.no }}">
+                        <img src="{{ url_for('static', filename='pic/' + event.image) }}" class="eventImage" alt="{{ event.eventName }}">
+                    </a>
+                    <p><a href="/detail/{{ event.no }}">{{ event.eventName }}</a></p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
+        <button class="next">❯</button>
     </section>
-    <footer>
-        <p></p>
-    </footer>
+
+    <div class="box"></div>
+    
+    <script src="/static/js/home.js"></script>
 </body>
 </html>

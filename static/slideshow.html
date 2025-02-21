@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자연스럽게 왕복하는 무한 슬라이드</title>
+    <title>끊김 없이 왕복하는 무한 슬라이드</title>
     <link rel="stylesheet" href="/static/css/slide.css">
 </head>
 <body>
@@ -14,49 +14,24 @@
     <script>
         const imageFolder = "/static/pic/";
         const slideshow = document.getElementById("slideshow");
-        let images = []; // 원본 이미지 리스트
-        let reversedImages = []; // 거꾸로 붙일 이미지 리스트
-        let currentIndex = 0;
-        let direction = 1; // 1: 왼쪽 이동, -1: 오른쪽 이동
 
         fetch("/get-images")
             .then(response => response.json())
             .then(imageFiles => {
                 if (imageFiles.length === 0) return;
 
-                images = [...imageFiles];
-                reversedImages = [...imageFiles].reverse(); // ✅ 거꾸로 된 리스트 생성
+                // ✅ 원본 리스트 + 반대 리스트를 합쳐 왕복 효과
+                const images = [...imageFiles, ...imageFiles.slice().reverse()];
+                
+                images.forEach(file => {
+                    let img = document.createElement("img");
+                    img.src = `${imageFolder}${file}`;
+                    img.classList.add("slide");
+                    slideshow.appendChild(img);
+                });
 
-                function renderSlides() {
-                    slideshow.innerHTML = ""; // 기존 슬라이드 초기화
-                    let combinedImages = [...images, ...reversedImages]; // ✅ 원래 순서 + 거꾸로 리스트
-
-                    combinedImages.forEach(file => {
-                        let img = document.createElement("img");
-                        img.src = `${imageFolder}${file}`;
-                        img.classList.add("slide");
-                        slideshow.appendChild(img);
-                    });
-
-                    // ✅ 슬라이드 전체 길이 설정
-                    slideshow.style.width = `${combinedImages.length * 100}vw`;
-                }
-
-                renderSlides(); // 첫 렌더링 실행
-
-                function moveSlides() {
-                    currentIndex += direction;
-
-                    // ✅ 끝에 도달하면 방향 변경 (왕복 슬라이드 구현)
-                    if (currentIndex === images.length || currentIndex === 0) {
-                        direction *= -1;
-                    }
-
-                    slideshow.style.transition = "transform 1s ease-in-out";
-                    slideshow.style.transform = `translateX(-${currentIndex * 100}vw)`;
-                }
-
-                setInterval(moveSlides, 5000); // 5초마다 다음 이미지로 이동
+                // ✅ CSS 애니메이션 활성화
+                slideshow.style.animation = "slideAnimation 10s linear infinite alternate";
             })
             .catch(error => console.error("이미지 목록을 불러오는 데 실패했습니다:", error));
     </script>

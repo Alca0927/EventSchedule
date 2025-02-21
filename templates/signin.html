@@ -53,7 +53,7 @@
 
         .menu2{
             position: fixed;
-            left: 42%;
+            left: 43.5%;
             bottom: 37%;
             font-size: small;
 
@@ -85,14 +85,19 @@
         .container{
             display: flex;
             position: fixed;
-            top: 45%;
-            right: 45%;
+            top: 30%;
+            right: 30%;
+            background-color: #F1EFEF;
+            width: 500px;
+            height: 300px;
         }
 
         #id, #password{
             position: relative;
-            width: 200px;
+            width: 250px;
             height: 50px;
+            top: 35%;
+            left:35%;
         }
 
         #button {
@@ -100,6 +105,9 @@
             height: 100px;
             width: 100px;
             margin-top: -50px;
+            top: 51.8%;
+            right: 15%;
+            background-color: #CCC8AA;
         }
 
         .login{
@@ -123,7 +131,14 @@
             height: 100%;
             border: none; /* 테두리 제거 */
         }
-
+        
+        .box{
+            background-color: #191717;
+            position : fixed;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body>
@@ -134,7 +149,9 @@
         <h1 class="home"><a href="/">개발의 민족</a></h1>
     </header>
     
-    <iframe style="height: 500px;" class="background-frame" src="/static/slideshow.html"></iframe>
+    <!--<iframe style="height: 500px;" class="background-frame" src="/static/slideshow.html"></iframe>-->
+
+    <!--<div class="box"></div>-->
     
     <div class="container">
         <h2 class="login">로그인</h2>

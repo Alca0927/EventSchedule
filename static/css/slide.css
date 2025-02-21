@@ -26,13 +26,20 @@ body, html {
     display: flex;
     position: absolute;
     will-change: transform;
+    animation: slideAnimation 50s linear infinite alternate; /* ✅ 속도 조절 */
 }
 
-/* 개별 슬라이드 (img 태그 사용) */
+/* 개별 슬라이드 */
 .slide {
-    height: 100vh;  /* 원본 비율 유지 */
+    height: 100vh;
     width: auto;
     flex-shrink: 0;
-    object-fit: contain; /* ✅ 이미지가 비율 유지하며 꽉 차도록 조절 */
-    margin: 0; /* ✅ 이미지가 다닥다닥 붙도록 설정 */
+    object-fit: contain;
+    margin: 0;
+}
+
+/* 왕복 애니메이션 (속도 조절됨) */
+@keyframes slideAnimation {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* ✅ 왕복 구간 */
 }
