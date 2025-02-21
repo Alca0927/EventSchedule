@@ -1,4 +1,5 @@
-body{
+/* 기본 설정 */
+body {
     margin: 0;
     padding: 0;
 }
@@ -8,49 +9,52 @@ a {
     text-decoration: none; /* 밑줄 제거 */
 }
 
-a:visited, a:active{
+a:visited, a:active {
     color: #191717;
     text-decoration: none;
 }
 
-header{
-    background-color:#F1EFEF;
+/* 헤더 */
+header {
+    background-color: #CCC8AA;
     width: 100%;
     height: 130px;
     color: #191717;
     position: relative;
-  top: 0;
+    top: 0;
 }
-header h1{
+
+header h1 {
     display: flex;
     padding: 10px;
     font-size: 65px;
     margin: 0;
 }
 
-.headerLeft{
+.headerLeft {
     display: flex;
     align-items: center;
     position: absolute;
-    right:10px;
+    right: 10px;
     bottom: 10px;
     gap: 10px;
     font-size: 20px;
 }
 
-.headerLeft div{
+.headerLeft div {
     display: flex;
     align-items: center;
 }
 
-.home{
+.home {
     position: fixed;
     top: 3%;
     left: 5%;
 }
 
-footer{
-    background-color:#CCC8AA;
+/* 푸터 */
+footer {
+    background-color: #CCC8AA;
     width: 100%;
     height: 100px;
     color: #191717;
@@ -58,38 +62,132 @@ footer{
     position: fixed;
 }
 
-ul{
+/* 리스트 스타일 */
+ul {
     list-style-type: none;
     margin: 0;
-    display: flex;
-    margin: 0;
     padding: 0;
+    display: flex;
     gap: 10px;
 }
 
-ul li{
+ul li {
     display: flex;
     align-items: center;
 }
 
-/* header footer 끝*/
-/* 본문 내용 */
-
-.eventContainer{
+/* 본문 - 이벤트 컨테이너 */
+.eventContainer {
     display: flex;
     flex-wrap: wrap; /* 줄바꿈 */
     justify-content: center; /* 가운데 정렬 */
-    gap: 20px; /* 요소 간격 */
+    gap: 20px; /* 요소 간 간격 */
     margin-top: 30px;
 }
 
-.eventItem{
-    width: calc(20% - 20px);
+/* 반투명 검은 배경 (box) */
+.box {
+    background-color: rgba(0, 0, 0, 0.5); /* 불투명한 검은색 */
+    position: fixed;
+    top: 130px; /* 헤더 높이만큼 띄우기 */
+    left: 0;
+    width: 100%;
+    height: calc(100% - 130px); /* 헤더를 제외한 높이 */
+    z-index: 1; /* 슬라이더보다 낮게 설정 */
+}
+
+/* 전체 요소 크기 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 슬라이더 컨테이너 */
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    z-index: 10; /* 슬라이더가 .box 위에 오도록 설정 */
+}
+
+/* 슬라이더 부모 요소 */
+.slider-wrapper {
+    width: 100%;
+    overflow: hidden; /* 넘치는 부분을 숨김 */
+    position: relative;
+}
+
+/* 슬라이더 내부 */
+.slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%; /* 전체 슬라이더 크기 고정 */
+    gap: 50px; /* 이미지 간 간격 */
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    padding-right: 50px; /* 오른쪽 여백 추가 */
+}
+
+/* 개별 이벤트 아이템 */
+.eventItem {
+    flex: 0 0 calc((100% - 200px) / 5); /* gap을 고려하여 크기 조정 */
+    box-sizing: border-box;
     text-align: center;
 }
 
-.eventImage{
-    width: 90%;
+/* 이벤트 이미지 */
+/* 이미지 기본 스타일 */
+.eventImage {
+    width: 100%;
     height: auto;
-    object-fit: cover; /* 사진 비율 유지 */
+    max-height: 500px;
+    position: relative;
+    z-index: 10; /* 이미지가 .box 위에 오도록 설정 */
+    transition: transform 0.3s ease-in-out; /* 부드러운 확대 효과 */
+}
+
+/* 마우스를 올리면 확대 */
+.eventImage:hover {
+    transform: scale(1.1); /* 10% 확대 */
+    max-width: 110%; /* 너무 커지지 않도록 제한 */
+}
+
+
+/* 🔥 화살표 버튼 수정 */
+/* 🔥 화살표 버튼 (양쪽 끝으로 이동) */
+.prev, .next {
+    position: fixed; /* 화면 고정 */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.7); /* 좀 더 진한 배경 */
+    color: white;
+    border: none;
+    padding: 20px 25px; /* 버튼 크기 키움 */
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 50; /* 다른 요소보다 위에 위치 */
+}
+
+.prev {
+    left: 20px; /* 왼쪽 끝에 배치 */
+}
+
+.next {
+    right: 20px; /* 오른쪽 끝에 배치 */
+}
+
+/* 🔹 반응형 - 작은 화면에서 버튼 크기 조정 */
+@media screen and (max-width: 800px) {
+    .prev {
+        left: 10px;
+    }
+    .next {
+        right: 10px;
+    }
 }
