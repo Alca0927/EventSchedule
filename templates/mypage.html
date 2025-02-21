@@ -9,16 +9,25 @@
 <body>
   <header>
     <!-- 헤더 -->
-    <h1><a href="/">홈페이지</a></h1>
-    <section>
-      <ul>
-        <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
-        <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-        <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
-      </ul>
+    <h1><a href="/" id='home'>홈페이지</a></h1>
+    <section class="headerLeft">
+        <div>
+            <form action="searchEvent" method="POST">
+                <input type="text" id="searchEventName" name="searchEventName">
+                <button type="submit">검색</button>
+            </form>
+        </div>
+        <div>
+            <ul>
+                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
+                <li>{% if session %} {{session.user_id}}님 &nbsp;&nbsp;<a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
+            </ul>
+        </div>
     </section>
   </header>
-  <section>
+  <!-- 본문 내용 -->
+  <section class="calendar">
       <div class="calendar-container">
           <div class="calendar-header">
             <button id="prevBtn">이전</button>
@@ -47,7 +56,9 @@
         </form>
       </div>
   </section>
-
+  <footer>
+    
+  </footer>
   <script>
     const myEvents = JSON.parse(`{{ events | tojson | safe }}`);
     // 달력을 렌더링한 후 이벤트들을 달력에 표시
