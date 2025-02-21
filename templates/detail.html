@@ -32,9 +32,7 @@
             <h4 class="location">{{ event.location }}</h4>
             <h5 class="explain">{{ event.explain }}</h5>
         </div>
-        {% if %}
         <div>
-
             {% if session.user_id == "admit" %}
             <form method="POST" action="/detail/{{no}}/update">
                 <button type="submit">수정</button>
@@ -49,8 +47,8 @@
             </form>
             {% else %}
             {% endif %}
-        </div>
         {% endif %}
+        </div>
     </section>
     
 </body>
