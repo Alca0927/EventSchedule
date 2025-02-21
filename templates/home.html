@@ -4,30 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인페이지</title>
+    <link rel="stylesheet" type="text/css" href="static/css/home.css">
 </head>
 <body>
     <header>
         <!-- 헤더 -->
-        <h1><a href="/">홈페이지</a></h1>
-        <section>
-            <ul>
-                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
-                <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
-            </ul>
+        <h1><a href="/" id='home'>홈페이지</a></h1>
+        <section class="headerLeft">
+            <div>
+                <form action="searchEvent" method="POST">
+                    <input type="text" id="searchEventName" name="searchEventName">
+                    <button type="submit">검색</button>
+                </form>
+            </div>
+            <div>
+                <ul>
+                    <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
+                    <li>{% if session %} {{session.user_id}}님 &nbsp;&nbsp;<a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                    <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
+                </ul>
+            </div>
         </section>
     </header>
     <section>  
         <!-- 본문 -->
-        <div>
+        <div class="eventContainer">
             {% for event in events %}
-            <ul>
+            <ul class="eventItem">
                 <li>
                     <table>
                         <tr>
                             <td>
                                 <a href="/detail/{{event.no}}">
-                                    <img src="{{url_for('static', filename='pic/' + event.image)}}" width="100" alt="{{event.eventName}}">
+                                    <img src="{{url_for('static', filename='pic/' + event.image)}}" class="eventImage" alt="{{event.eventName}}">
                                 </a>
                             </td>
                         </tr>
@@ -43,7 +52,7 @@
         </div>
     </section>
     <footer>
-
+        <p></p>
     </footer>
 </body>
 </html>
