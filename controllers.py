@@ -259,5 +259,16 @@ def setup_routes(app):
         # members 테이블에서 id가 존재하는지 확인
         exists = members.query.filter_by(id=user_id).first() is not None
         return jsonify({'exists': exists})
-   
-
+    
+    # 이벤트 검색 후 상세페이지로 이동
+    @app.route('/searchEvent', methods=['POST'])
+    def seachEvent():
+        if request.method == 'POST':
+            searchEvent = request.form['searchEventName']
+            event = Event.query.filter_by(eventName=searchEvent).first()
+            if event:
+                no = event.no
+                return redirect(url_for('get_event', no=no))
+            else:
+                return redirect(url_for('home'))
+        return redirect(url_for('home'))

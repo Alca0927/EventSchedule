@@ -27,6 +27,7 @@
                 <p>이미지 없음</p>
             {% endif %}
 
+
             <div class="databox"></div>
 
             <div class="data">
@@ -34,7 +35,7 @@
             
                 <h4 class="date">{{ event.startDate }} ~ {{ event.endDate }}</h4>
                 
-                <h4 class="location">{{ event.location }}</h4>
+                <h4 class="location"><a href="https://map.kakao.com/link/search/{{event.location}}">{{ event.location }}</a></h4>
                 
                 <h5 class="explain">{{ event.explain }}</h5>
             </div>
@@ -44,6 +45,7 @@
             
         </div>
         <div class="button">
+
             {% if session.user_id == "admit" %}
             <form method="POST" action="/detail/{{no}}/update">
                 <button type="submit">수정</button>
@@ -60,6 +62,7 @@
         </div>
         {% else %}  <!-- events 리스트가 비어 있다면 -->
             <p>현재 진행 중인 전시회가 없습니다.</p>
+
         {% endif %}
     </section>
     <footer>

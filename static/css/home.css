@@ -1,0 +1,95 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #191717; /* 기본 링크 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+a:visited, a:active{
+    color: #191717;
+    text-decoration: none;
+}
+
+header{
+    background-color:#F1EFEF;
+    width: 100%;
+    height: 130px;
+    color: #191717;
+    position: relative;
+  top: 0;
+}
+header h1{
+    display: flex;
+    padding: 10px;
+    font-size: 65px;
+    margin: 0;
+}
+
+.headerLeft{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right:10px;
+    bottom: 10px;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.headerLeft div{
+    display: flex;
+    align-items: center;
+}
+
+.home{
+    position: fixed;
+    top: 3%;
+    left: 5%;
+}
+
+footer{
+    background-color:#CCC8AA;
+    width: 100%;
+    height: 100px;
+    color: #191717;
+    bottom: 0;
+    position: fixed;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+}
+
+ul li{
+    display: flex;
+    align-items: center;
+}
+
+/* header footer 끝*/
+/* 본문 내용 */
+
+.eventContainer{
+    display: flex;
+    flex-wrap: wrap; /* 줄바꿈 */
+    justify-content: center; /* 가운데 정렬 */
+    gap: 20px; /* 요소 간격 */
+    margin-top: 30px;
+}
+
+.eventItem{
+    width: calc(20% - 20px);
+    text-align: center;
+}
+
+.eventImage{
+    width: 90%;
+    height: auto;
+    object-fit: cover; /* 사진 비율 유지 */
+}
