@@ -29,7 +29,7 @@
 
             <h2 class="eventName">{{ event.eventName }}</h2>
             <h4 class="date">{{ event.startDate }} ~ {{ event.endDate }}</h4>
-            <h4 class="location">{{ event.location }}</h4>
+            <h4 class="location"><a href="https://map.kakao.com/link/search/{{event.location}}">{{ event.location }}</a></h4>
             <h5 class="explain">{{ event.explain }}</h5>
         </div>
         <div>
