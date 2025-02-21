@@ -54,9 +54,15 @@
                 <button type="submit">삭제</button>
             </form>
             {% elif session.user_id %}
-            <form method="POST" action="/mypage/create/{{no}}">
-                <input type="submit" name="likes" value="즐겨찾기">
-            </form>
+                {% if event.eventName in favoritesEvent %}
+                    <form method="POST" action="/mypage/delete/{{event.eventName}}">
+                        <input type="submit" name="deleteEvent" value="즐겨찾기 삭제">
+                    </form>
+                {% else %}
+                    <form method="POST" action="/mypage/create/{{no}}">
+                        <input type="submit" name="likes" value="즐겨찾기">
+                    </form>
+                {% endif%}
             {% else %}
             {% endif %}
         </div>
