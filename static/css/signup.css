@@ -73,46 +73,48 @@ ul li{
     align-items: center;
 }
 
-
 /* 본문 내용 */
 
-.uploadContainer{
+.signupContainer{
     width: 800px;
     margin: auto;
     border: 1px solid #ddd;
     padding: 0;
     align-items: center;
     margin-top: auto;
+    justify-content: center;
 }
 
-.uploadContainer form{
+.signupContainer form{
     margin-bottom: 10px;
     margin-top: 10px;
 }
 
-.uploadContainer form div{
+.signupContainer form div{
     padding-left: calc(10%);
     padding-right: calc(10%);
     padding-bottom: 10px;
 }
 
-.uploadContainer form label, .uploadContainer form input, .uploadContainer form textarea{
+.signupContainer form label, .signupContainer form input, .signupContainer form textarea{
     display: block;
     width: 100%;
     align-items: center;
     align-content: center;
 }
 
-.uploadContainer form input{
+.signupContainer form input{
     padding: 5px;
     margin-top: 5px;
 }
 
-.uploadContainer form button{
+.signupButton{
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    width: 10%;
-    margin-left: 45%;
+    width: 16%;
+    margin-left: 42%;
     align-content: center;
+    align-items: center;
+    justify-content: center;
 }

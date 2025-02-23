@@ -4,48 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <style>
-        body { font-family: arial, sans-serif; }
-        .container {
-            width: 300px;
-            margin: auto;
-            border: 1px solid #ddd;
-            padding: 20px;
-        }
-        .form-group {
-            margin-bottom: 10px;
-        }
-        .form-group label, .form-group input {
-            display: block;
-            width: 100%;
-        }
-        .form-group input {
-            padding: 5px;
-            margin-top: 5px;
-        }
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-    </style>
-    
+    <link rel="stylesheet" href="/static/css/signup.css">
 </head>
 <body>
     <header>
-        <h1><a href="/">홈페이지</a></h1>
-        <section>
-            <ul>
-                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
-                <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
-            </ul>
+        <!-- 헤더 -->
+        <h1><a href="/" id='home'>홈페이지</a></h1>
+        <section class="headerLeft">
+            <div>
+                <form action="searchEvent" method="POST">
+                    <input type="text" id="searchEventName" name="searchEventName">
+                    <button type="submit">검색</button>
+                </form>
+            </div>
+            <div>
+                <ul>
+                    <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
+                    <li>{% if session %} {{session.user_id}}님 &nbsp;&nbsp;<a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                    <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
+                </ul>
+            </div>
         </section>
     </header>
-    <div class="container">
-        <h1>이벤트 정보사이트에 오신 것을 환영합니다!</h1>
-        <h2>회원가입 페이지</h2> 
-        
+    <div class="signupContainer">
+        <h2>회원가입</h2> 
         <!-- 회원가입 폼 -->
         <form action="/signupTry" id="signupForm" style="display:contents;" method="post">
             <div class="form-group">
@@ -65,8 +47,8 @@
                 <label for="signupUseremail">사용자 e-mail:</label>
                 <input type="text" id="signupUseremail" name="signupUseremail">
             </div>
-            <div class="buttons">
-                <button type="submit">회원가입</button>
+            <div>
+                <button class="signupButton" type="submit">회원가입</button>
             </div>
         </form>
     </div>    

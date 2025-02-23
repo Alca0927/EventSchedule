@@ -1,4 +1,7 @@
-
+body{
+    margin: 0;
+    padding: 0;
+}
 
 a {
     color: #191717; /* 기본 링크 색상 */
@@ -13,8 +16,11 @@ a:visited, a:active{
 header{
     background-color:#F1EFEF;
     width: 100%;
-    height: 100px;
+    height: 130px;
     color: #191717;
+    position: relative;
+    top: 0;
+    margin-bottom: 30px;
 }
 
 img{
@@ -25,6 +31,60 @@ img{
     top:20%;
 }
 
+header h1{
+    display: flex;
+    padding: 10px;
+    font-size: 65px;
+    margin: 0;
+}
+
+.headerLeft{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right:10px;
+    bottom: 10px;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.headerLeft div{
+    display: flex;
+    align-items: center;
+}
+
+.home{
+    position: fixed;
+    top: 3%;
+    left: 5%;
+}
+
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+}
+
+ul li{
+    display: flex;
+    align-items: center;
+}
+
+
+footer{
+    background-color:#CCC8AA;
+    width: 100%;
+    height: 100px;
+    color: #191717;
+    bottom: 0;
+    position: fixed;
+}
+
+/* 본문 내용 */
 .explain{
     width: 300px;
 }
@@ -79,13 +139,4 @@ img{
     bottom: 20%;
     right:17%;
 
-}
-
-footer{
-    background-color:#CCC8AA;
-    width: 100%;
-    height: 100px;
-    color: #191717;
-    bottom: 0;
-    position: fixed;
 }
