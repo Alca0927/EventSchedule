@@ -92,6 +92,7 @@ footer{
     align-items: center;
     position: relative;  /* menu를 absolute로 배치할 기준 */
     margin-top: 100px;
+    background-color: #f1efef;
 }
 
 .login{
@@ -117,7 +118,7 @@ table{
     width: 90px;
     height: 90px;
     border: none;
-    background-color: #007bff;
+    background-color: #ccc8aa;
     color: white;
     font-size: 16px;
     border-radius: 5px;
@@ -125,7 +126,7 @@ table{
 }
 
 #button:hover {
-    background-color: #0056b3;
+    background-color: #ccc8aa;
 }
 
 .menu {
