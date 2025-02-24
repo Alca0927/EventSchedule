@@ -84,6 +84,10 @@ ul li{
     margin-top: auto;
 }
 
+h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
 .updateContainer form{
     margin-bottom: 10px;
     margin-top: 10px;

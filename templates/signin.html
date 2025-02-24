@@ -13,26 +13,51 @@
 </head>
 <body>
     <header>
-        <h1 class="home"><a href="/">개발의 민족</a></h1>
+        <!-- 헤더 -->
+        <h1><a href="/" id='home'>홈페이지</a></h1>
+        <section class="headerLeft">
+            <div>
+                <form action="searchEvent" method="POST">
+                    <input type="text" id="searchEventName" name="searchEventName">
+                    <button type="submit">검색</button>
+                </form>
+            </div>
+            <div>
+                <ul>
+                    <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
+                    <li>{% if session %} {{session.user_id}}님 &nbsp;&nbsp;<a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                    <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
+                </ul>
+            </div>
+        </section>
     </header>
-    
-    <!--<iframe style="height: 500px;" class="background-frame" src="/static/slideshow.html"></iframe>-->
-
-    <!--<div class="box"></div>-->
-    
-    <div class="container">
-        <h2 class="login">로그인</h2>
-        <ul class="menu">
-            <li class="menu1">{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
-            <li class="menu2"><a href="/signup">회원가입</a></li>
-        </ul>
-        <form action="/loginTry" id="loginForm" method="POST">
-            <input type="text" id="id" name="id" placeholder="&nbsp;아이디">
-            <br>
-            <input type="password" id="password" name="password" placeholder="&nbsp;비밀번호">
-            <input type="submit" id="button" value="로그인">
-        </form>
-    </div>
+<!-- 본문 내용 -->
+    <section>
+        <div class="loginContainer">
+            <h2 class="login">로그인</h2>
+            
+            <form action="/loginTry" id="loginForm" method="POST">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" id="id" name="id" placeholder="&nbsp;아이디">
+                        </td>
+                        <td rowspan="2">
+                            <input type="submit" id="button" value="로그인">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="password" id="password" name="password" placeholder="&nbsp;비밀번호">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="/signup">회원가입</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </section>
     {% if message %}
     <script>
         showAlert("{{ message}}");

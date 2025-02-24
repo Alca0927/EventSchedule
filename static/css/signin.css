@@ -1,129 +1,242 @@
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        a {
-            color: #191717; /* 기본 링크 색상 */
-            text-decoration: none; /* 밑줄 제거 */
-        }
+body{
+    margin: 0;
+    padding: 0;
+}
 
-        a:visited, a:active{
-            color: #191717;
-            text-decoration: none;
-        }
+a {
+    color: #191717; /* 기본 링크 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
 
-        header{
-            background-color:#F1EFEF;
-            width: 100%;
-            height: 100px;
-            color: #191717;
-        }
+a:visited, a:active{
+    color: #191717;
+    text-decoration: none;
+}
 
-        .home{
-            position: fixed;
-            top: 3%;
-            left: 5%;
-        }
+header{
+    background-color:#F1EFEF;
+    width: 100%;
+    height: 130px;
+    color: #191717;
+    position: relative;
+    top: 0;
+    margin-bottom: 30px;
+}
 
-        .menu{
-            position:fixed;
-            top:5%;
-            right:10%;
-            display: flex;
-            list-style: none;
-        }
+header h1{
+    display: flex;
+    padding: 10px;
+    font-size: 65px;
+    margin: 0;
+}
+
+.headerLeft{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right:10px;
+    bottom: 10px;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.headerLeft div{
+    display: flex;
+    align-items: center;
+}
+
+.home{
+    position: fixed;
+    top: 3%;
+    left: 5%;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+}
+
+ul li{
+    display: flex;
+    align-items: center;
+}
+
+footer{
+    background-color:#CCC8AA;
+    width: 100%;
+    height: 100px;
+    color: #191717;
+    bottom: 0;
+    position: fixed;
+}
+
+/* 본문 내용 */
+.loginContainer{
+    width: 500px;
+    height: 300px;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;  /* menu를 absolute로 배치할 기준 */
+    margin-top: 100px;
+    background-color: #f1efef;
+}
+
+.login{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table{
+    width: 90%;
+    margin: 0 auto;
+}
+
+#id, #password{
+    width: calc(100%); /* 🔹 로그인 버튼 크기 제외 */
+    height: 45px; /* 🔹 버튼의 절반 높이 */
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#button {
+    width: 90px;
+    height: 90px;
+    border: none;
+    background-color: #ccc8aa;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#button:hover {
+    background-color: #ccc8aa;
+}
+
+.menu {
+    position: absolute;
+    bottom: 10px;  /* 로그인 컨테이너의 맨 아래에 위치 */
+    width: 100%;
+    text-align: center;
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    display: inline;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #007bff;
+}
+/* 에스더의 로그인 화면
+.container{
+    display: flex;
+    position: fixed;
+    top: 30%;
+    right: 30%;
+    background-color: #F1EFEF;
+    width: 500px;
+    height: 300px;
+}
+
+.menu{
+    position:fixed;
+    top:5%;
+    right:10%;
+    display: flex;
+    list-style: none;
+}
         
-        .menu1{
-            position: fixed;
-        }
+.menu1{
+    position: fixed;
+}
 
-        .menu2{
-            position: fixed;
-            left: 43.5%;
-            bottom: 37%;
-            font-size: small;
+.menu2{
+    position: fixed;
+    left: 43.5%;
+    bottom: 37%;
+    font-size: small;
+}
 
-        }
+.menu3{
+    position: fixed;
+    left: 46%;
+    bottom: 37%;
+    font-size: small;
+}
 
-        .menu3{
-            position: fixed;
-            left: 46%;
-            bottom: 37%;
-            font-size: small;
-        }
-        .menu4{
-            position: fixed;
-            left: 52%;
-            bottom: 37%;
-            font-size: small;
+.menu4{
+    position: fixed;
+    left: 52%;
+    bottom: 37%;
+    font-size: small;
+}
 
-        }
+#id, #password{
+    position: relative;
+    width: 250px;
+    height: 50px;
+    top: 35%;
+    left:35%;
+}
 
-        footer{
-            background-color:#CCC8AA;
-            width: 100%;
-            height: 100px;
-            color: #191717;
-            bottom: 0;
-            position: fixed;
-        }
+#button {
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    margin-top: -50px;
+    top: 51.8%;
+    right: 15%;
+    background-color: #CCC8AA;
+}
 
-        .container{
-            display: flex;
-            position: fixed;
-            top: 30%;
-            right: 30%;
-            background-color: #F1EFEF;
-            width: 500px;
-            height: 300px;
-        }
+.login{
+    position:fixed;
+    left: 40%;
+    top: 37%;
+}
 
-        #id, #password{
-            position: relative;
-            width: 250px;
-            height: 50px;
-            top: 35%;
-            left:35%;
-        }
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
-        #button {
-            position: absolute;
-            height: 100px;
-            width: 100px;
-            margin-top: -50px;
-            top: 51.8%;
-            right: 15%;
-            background-color: #CCC8AA;
-        }
+* 전체 화면을 채우는 iframe *
 
-        .login{
-            position:fixed;
-            left: 40%;
-            top: 37%;
-        }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        /* 전체 화면을 채우는 iframe */
-        .background-frame {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: none; /* 테두리 제거 */
-        }
+.background-frame {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none; * 테두리 제거 *
+} 
         
-        .box{
-            background-color: #191717;
-            position : fixed;
-            width: 100%;
-            height: 100%;
-            opacity: 0.5;
-        }
+.box{
+    background-color: #191717;
+    position : fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+}
+
+*/
