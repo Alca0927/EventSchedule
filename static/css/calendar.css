@@ -1,6 +1,10 @@
 body{
   margin: 0;
   padding: 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 a {
@@ -14,19 +18,17 @@ a:visited, a:active{
 }
 
 header{
-  background-color:#F1EFEF;
+  background-color:#CCC8AA;
   width: 100%;
-  height: 130px;
+  height: 100px;
   color: #191717;
-  /* position: relative; */
-  position: absolute; /* 왜 인지는 모르겠으나 절대적 위치로 해야 헤더가 위로 간다.*/
+  position: relative;
   top: 0;
 }
 
 header h1{
   display: flex;
   padding: 10px;
-  font-size: 65px;
   margin: 0;
 }
 
@@ -46,9 +48,8 @@ header h1{
 }
 
 .home{
-  position: fixed;
-  top: 3%;
-  left: 5%;
+  padding-left: 30px;
+  padding-top: 20px;
 }
 
 footer{
@@ -75,7 +76,7 @@ ul li{
 }
 
 /* --------------------------------- */
-body {
+/* body {
   font-family: Arial, sans-serif;
   text-align: center;
   width: 100vw;
@@ -83,13 +84,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .calendar {
-  margin-top: 80px; 
   display: flex;
   justify-content: center;  
-  align-items: stretch;       
+  align-items: stretch;
+  position: relative;
   gap: 20px;                
   padding: 30px;            
 }

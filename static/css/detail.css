@@ -1,4 +1,7 @@
-
+body {
+    margin: 0;
+    padding: 0;
+}
 
 a {
     color: #191717; /* 기본 링크 색상 */
@@ -57,7 +60,7 @@ img{
 
 .home{
     position: fixed;
-    top: 3%;
+    top: 1%;
     left: 5%;
 }
 

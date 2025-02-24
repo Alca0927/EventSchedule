@@ -18,9 +18,10 @@ class Event(db.Model) :   # 이벤트 목록
         return f'<Event {self.title}>'
 
 class mypage(UserMixin, db.Model):   # Mypage
+    no = db.Column(db.Integer,primary_key=True,nullable=False )
     id = db.Column(db.String(20), nullable=False)
     my_name = db.Column(db.String(50), nullable=False) 
-    my_eventName = db.Column(db.String(50), primary_key=True, nullable=False)
+    my_eventName = db.Column(db.String(50),nullable=False)
     my_startDate = db.Column(db.String(20), nullable=False)
     my_endDate = db.Column(db.String(20), nullable=False)
     my_location = db.Column(db.String(100), nullable=False)

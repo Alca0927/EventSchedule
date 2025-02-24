@@ -1,0 +1,102 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+   color: #191717; /* 기본 링크 색상 */
+   text-decoration: none; /* 밑줄 제거 */
+}
+
+a:visited, a:active{
+    color: #191717;
+    text-decoration: none;
+}
+
+header{
+    background-color:#F1EFEF;
+    width: 100%;
+    height: 100px;
+    color: #191717;
+}
+
+footer{
+    background-color:#CCC8AA;
+    width: 100%;
+    height: 100px;
+    color: #191717;
+    bottom: 0;
+    position: fixed;
+}
+
+#id, #password, #name, #email{
+    width: 200px;
+    height: 30px;
+}
+
+.container {
+    display: flex;
+   flex-direction: column; /* 내부 요소를 세로 배치 */
+   justify-content: center; /* 세로 중앙 정렬 */
+   align-items: center; /* 가로 중앙 정렬 */
+    background-color: #F1EFEF;
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+   transform: translate(-50%, -50%); /* 정중앙 배치 */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.signup {
+   position: static; /* 불필요한 fixed 제거 */
+    margin-bottom: 20px;
+}
+
+#signupForm {
+    display: flex;
+   flex-direction: column; /* 입력 필드를 세로로 정렬 */
+    align-items: center;
+   gap: 10px; /* 입력 필드 간격 추가 */
+}
+
+.id-container {
+    display: flex;
+   align-items: center; /* 세로 중앙 정렬 */
+    margin-right: -80px;
+   gap: 10px; /* 입력창과 버튼 사이 간격 */
+   width: 400px; /* 컨테이너 전체 너비 */
+    justify-content: center;
+}
+
+#overlap {
+    height: 34px;
+    padding: 0 10px;
+    background-color: #CCC8AA;
+    border: none;
+    cursor: pointer;
+}
+
+.home{
+    position: fixed;
+    top: 3%;
+    left: 5%;
+}
+
+.menu{
+    position:fixed;
+    top:5%;
+    right:10%;
+    display: flex;
+    list-style: none;
+}
+
+.menu3{
+    position: relative;
+    right: 30%;
+}
+

@@ -91,7 +91,7 @@ def setup_routes(app):
             db.session.add(member)
             db.session.commit()
 
-            return render_template('home.html')
+            return redirect(url_for('home'))
         return redirect(url_for('home')) # 비정상 요청의 경우 리다이렉트
 
     @app.route('/mypage', methods=['GET'])
@@ -175,11 +175,14 @@ def setup_routes(app):
     @app.route('/detail/<int:no>', methods=['GET','POST'])
     def get_event(no):
         event = Event.query.filter_by(no=no).first()
-        if current_user.id:
+        if session:
             favoritesEvent = mypage.query.filter_by(id=current_user.id).all()
             favorite_event_names = [fav.my_eventName for fav in favoritesEvent]
+        else:
+            favorite_event_names = []  # 비로그인 사용자에게는 즐겨찾기 정보를 제공하지 않음
         return render_template('detail.html', event=event, no=no, favoritesEvent=favorite_event_names)
 
+        
     # 이벤트 업로드 페이지
     @app.route('/upload')
     def uploadPage():
