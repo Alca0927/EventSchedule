@@ -28,11 +28,11 @@
     </header>
     <section class="updateContainer">
         <div>
-            <!-- 🚀 enctype 추가: 파일 업로드 시 필수 -->
+            <h2>{{event.eventName}} 수정</h2>
             <form action="/detail/{{no}}/updating" method="POST" enctype="multipart/form-data">
                 <div>
                     <label for="eventName">행사 이름:</label>
-                    <input type="text" id="eventName" name="eventName" required>
+                    <input type="text" id="eventName" name="eventName" value="{{event.eventName}}" required>
                 </div>
                 <div>
                     <label for="startDate">행사 시작일:</label>
@@ -44,11 +44,11 @@
                 </div>
                 <div>
                     <label for="location">행사 장소:</label>
-                    <input type="text" id="location" name="location" required>
+                    <input type="text" id="location" name="location" value="{{event.location}}" required>
                 </div>
                 <div>
                     <label for="explain">설 명:</label>
-                    <textarea id="explain" name="explain" required></textarea>
+                    <textarea id="explain" name="explain" required>{{event.explain}}</textarea>
                 </div>
                 <div>
                     <label for="image">이미지 업로드:</label>

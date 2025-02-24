@@ -166,9 +166,11 @@ def setup_routes(app):
     @app.route('/detail/<int:no>', methods=['GET','POST'])
     def get_event(no):
         event = Event.query.filter_by(no=no).first()
-        if current_user.id:
+        if session:
             favoritesEvent = mypage.query.filter_by(id=current_user.id).all()
             favorite_event_names = [fav.my_eventName for fav in favoritesEvent]
+        else:
+            favorite_event_names = []
         return render_template('detail.html', event=event, no=no, favoritesEvent=favorite_event_names)
 
     # 이벤트 업로드 페이지
