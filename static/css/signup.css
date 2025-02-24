@@ -124,3 +124,7 @@ ul li{
     justify-content: center;
     background-color: #ccc8aa;
 }
+
+#checkDupBtn{
+    background-color: #ccc8aa;
+}

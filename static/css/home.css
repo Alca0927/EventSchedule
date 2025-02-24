@@ -113,7 +113,7 @@ ul li {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: auto;
+    height: max-content;
     z-index: 10; /* 슬라이더가 .box 위에 오도록 설정 */
 }
 
