@@ -53,54 +53,67 @@
         </form>
     </div>    
 </body>
-<script> //아이디 증복 확인 스크립트
+<script>
+
     (function() {
+        // 사용자 ID 입력 필드 요소 선택
         var signupUseridInput = document.getElementById('signupUserid');
+        // 회원가입 폼 요소 선택
         var signupForm = document.getElementById('signupForm');
+        // 폼 내 "회원가입" 버튼 선택
         var signupBtn = signupForm.querySelector('button[type="submit"]');
+        // 중복 확인 상태 변수 초기화
         var duplicationChecked = false;
         
-        // 페이지 로드 시 회원가입 버튼 비활성화
+        // 페이지 로드시 회원가입 버튼을 비활성화
         signupBtn.disabled = true;
 
-        // 중복 확인 버튼 이벤트 (AJAX 사용)
+        // "증복 확인" 버튼 클릭 시 이벤트 핸들러 등록 (AJAX 사용)
         document.getElementById('checkDupBtn').addEventListener('click', function() {
+            // 입력된 사용자 ID 값을 가져와 앞뒤 공백 제거
             var userId = signupUseridInput.value.trim();
+            // 사용자 ID가 입력되지 않았으면 경고 후 함수 종료
             if (!userId) {
                 alert('사용자 ID를 입력하세요.');
                 return;
             }
-            // AJAX 호출: 서버의 /checkDup 엔드포인트에 userId 전달
+            // 서버의 /checkDup 엔드포인트에 AJAX POST 요청하여 아이디 중복 확인
             fetch('/checkDup', {
-                method: 'POST',
+                method: 'POST', // POST 방식 사용
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'Content-Type': 'application/json', // JSON 데이터 전송
+                    'X-Requested-With': 'XMLHttpRequest'  // AJAX 요청임을 명시
                 },
+                // 사용자 ID를 JSON 문자열로 변환하여 전송
                 body: JSON.stringify({ userId: userId })
             })
+            // 서버 응답을 JSON으로 파싱
             .then(response => response.json())
+            // 파싱된 데이터를 사용하여 중복 여부 처리
             .then(data => {
+                // 아이디가 중복되는 경우
                 if (data.exists) {
                     alert('아이디가 증복 되었습니다 다른 아이디를 입력해주세요');
-                    duplicationChecked = false;
-                    signupBtn.disabled = true;
+                    duplicationChecked = false; // 중복 확인 실패
+                    signupBtn.disabled = true;  // 회원가입 버튼 비활성화
                 } else {
                     alert('사용가능한 아이디 입니다');
-                    duplicationChecked = true;
-                    signupBtn.disabled = false;
+                    duplicationChecked = true;  // 중복 확인 성공
+                    signupBtn.disabled = false; // 회원가입 버튼 활성화
                 }
             })
+            // 요청 중 오류 발생 시 콘솔에 오류 출력
             .catch(error => {
                 console.error('Error:', error);
             });
         });
 
-        // 회원가입 폼 제출 전 중복 확인 여부 검사
+        // 회원가입 폼 제출 시 중복 확인 여부 체크
         signupForm.addEventListener('submit', function(event) {
+            // 중복 확인이 완료되지 않았으면 제출 중지 및 경고
             if (!duplicationChecked) {
                 alert('증복 확인 하시기 바랍니다.');
-                event.preventDefault();
+                event.preventDefault(); // 폼 제출 취소
             }
         });
     })();
