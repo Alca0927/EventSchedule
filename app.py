@@ -19,9 +19,10 @@ login_manager.login_view = 'login'
 # 라우트 설정
 setup_routes(app)
 
+# 데이터 베이스 생성
 with app.app_context():
     db.create_all()
 
-    
+# 앱 실행
 if __name__ == '__main__':
     app.run(debug=True)

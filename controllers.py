@@ -1,9 +1,7 @@
-from flask import Flask, render_template, request, jsonify, abort, redirect, url_for, session, send_from_directory
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from flask import Flask, render_template, request, jsonify, abort, redirect, url_for, session
+from flask_login import login_user, logout_user, login_required, current_user
 from models import db, Event, members, mypage
 from login_manager import login_manager
-import secrets
-from PIL import Image
 import os
 from datetime import datetime
 
@@ -52,14 +50,6 @@ def setup_routes(app):
                     return render_template("signin.html", message="패스워드가 다릅니다.")
         return redirect(url_for('home'))
     
-    @app.route("/get-images")
-    def get_images():
-        image_folder = "static/pic"  # 이미지 폴더 경로
-        files = os.listdir(image_folder)  # 폴더 내 파일 목록 가져오기
-        image_files = [f for f in files if f.endswith(('.jpg', '.png', '.jpeg'))]  # 이미지 파일만 필터링
-        return jsonify(image_files)  # JSON 형태로 반환
-
-
     # 로그아웃 기능
     @app.route('/logout')
     @login_required
@@ -94,6 +84,7 @@ def setup_routes(app):
             return render_template('home.html')
         return redirect(url_for('home')) # 비정상 요청의 경우 리다이렉트
 
+    # 나의 페이지 
     @app.route('/mypage', methods=['GET'])
     @login_required
     def list_mypage():
@@ -185,7 +176,7 @@ def setup_routes(app):
     def uploadPage():
         return render_template('upload.html')
 
-    # 이벤트 업로드 하는 기능 구현
+    # 이벤트 업로드 하는 기능
     @app.route('/upload/new', methods=['GET','POST'])
     def uploadNew():
         if request.method == 'POST':
@@ -210,7 +201,7 @@ def setup_routes(app):
             return redirect(url_for('home'))
         return render_template('upload.html')
     
-    # 이벤트 업로드 페이지
+    # 이벤트 업데이트 페이지
     @app.route('/detail/<int:no>/update',methods=['POST'])
     def updatePage(no):
         event = Event.query.filter_by(no=no).first()
