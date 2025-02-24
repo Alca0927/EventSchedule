@@ -9,16 +9,25 @@
 <body>
   <header>
     <!-- 헤더 -->
-    <h1><a href="/">홈페이지</a></h1>
-    <section>
-        <ul>
-            <li>{% if session %} {{session.user_id}} <a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
-            <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
-            <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
-        </ul>
+    <h1><a href="/" id='home'>홈페이지</a></h1>
+    <section class="headerLeft">
+        <div>
+            <form action="searchEvent" method="POST">
+                <input type="text" id="searchEventName" name="searchEventName">
+                <button type="submit">검색</button>
+            </form>
+        </div>
+        <div>
+            <ul>
+                <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
+                <li>{% if session %} {{session.user_id}}님 &nbsp;&nbsp;<a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
+                <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
+            </ul>
+        </div>
     </section>
   </header>
-  <section>
+  <!-- 본문 내용 -->
+  <section class="calendar">              
       <div class="calendar-container">          <!--달력 컨데이너-->
           <div class="calendar-header">
             <button id="prevBtn">이전</button>    <!--이전 달 업로드-->
@@ -34,39 +43,40 @@
             <div class="day">금</div>
             <div class="day">토</div>
           </div>
-          <div class="calendar-dates" id="calendarDates"></div>     <!--calendear.js에서 해당 월 달력 받아 출력-->
+          <div class="calendar-dates" id="calendarDates"></div>     <!--calendear.js에서 해달 월 달력 받아 출력-->
       </div>
       <div class="detail-container">                                <!--디테일 창 컨테이너-->
         
         <img id="detailImage" src="#" alt="행사 사진" style="width:100%; max-height:200px; object-fit:cover;">
-        <h2 id="detailEventName">행사 제목</h2>     
+        <h2 id="detailEventName">행사 제목</h2>
         <p id="detailLocation">행사 위치</p>
         <p id="detailExplain">행사 설명</p>
+        <form id='deleteEventName' action="/mypage/delete/deleteEventName" method="POST">     <!--즐겨찾기 삭제 폼-->
+          <button type="submit" value="삭제">즐겨찾기 삭제</button>
+        </form>
       </div>
-      
   </section>
-
-  
-
+  <footer>
+    
+  </footer>
   <script>
     // 서버 측에서 전달한 이벤트 데이터를 JSON 문자열로 받아와서 자바스크립트 객체로 변환
     const myEvents = JSON.parse(`{{ events | tojson | safe }}`);
-
+    
     // 달력을 렌더링한 후 이벤트들을 달력에 표시
     renderCalendar();
-
+    
     // 날짜 설정 함수 호출
     setDate();
-
+    
     // 이벤트들을 시작 날짜 기준 오름차순으로 정렬
     myEvents.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-
+    
     // 정렬된 각 이벤트에 대해 날짜 및 이벤트 정보를 달력에 표시하는 함수 호출
     myEvents.forEach(event => {
       setDate(event.startDate, event.endDate, event.eventName, event.location, event.explain, event.image);
     });
   </script>
   <script src="/static/js/calendar.js"></script>
-  
 </body>
 </html>

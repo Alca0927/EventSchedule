@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끊김 없이 왕복하는 무한 슬라이드</title>
+    <link rel="stylesheet" href="/static/css/slide.css">
+</head>
+<body>
+    <div class="slideshow-wrapper">
+        <div class="slideshow" id="slideshow"></div>
+    </div>
+
+    <script>
+        const imageFolder = "/static/pic/";
+        const slideshow = document.getElementById("slideshow");
+
+        fetch("/get-images")
+            .then(response => response.json())
+            .then(imageFiles => {
+                if (imageFiles.length === 0) return;
+
+                // ✅ 원본 리스트 + 반대 리스트를 합쳐 왕복 효과
+                const images = [...imageFiles, ...imageFiles.slice().reverse()];
+                
+                images.forEach(file => {
+                    let img = document.createElement("img");
+                    img.src = `${imageFolder}${file}`;
+                    img.classList.add("slide");
+                    slideshow.appendChild(img);
+                });
+
+                // ✅ CSS 애니메이션 활성화
+                slideshow.style.animation = "slideAnimation 10s linear infinite alternate";
+            })
+            .catch(error => console.error("이미지 목록을 불러오는 데 실패했습니다:", error));
+    </script>
+</body>
+</html>

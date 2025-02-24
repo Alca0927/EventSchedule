@@ -1,0 +1,45 @@
+/* 기본 설정 */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+/* 슬라이드쇼 컨테이너 */
+.slideshow-wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* 슬라이드쇼 */
+.slideshow {
+    display: flex;
+    position: absolute;
+    will-change: transform;
+    animation: slideAnimation 50s linear infinite alternate; /* ✅ 속도 조절 */
+}
+
+/* 개별 슬라이드 */
+.slide {
+    height: 100vh;
+    width: auto;
+    flex-shrink: 0;
+    object-fit: contain;
+    margin: 0;
+}
+
+/* 왕복 애니메이션 (속도 조절됨) */
+@keyframes slideAnimation {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* ✅ 왕복 구간 */
+}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, abort, redirect, url_for, session
+from flask import Flask, render_template, request, jsonify, abort, redirect, url_for, session, send_from_directory
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from models import db, Event, members, mypage
 from login_manager import login_manager
@@ -51,6 +51,14 @@ def setup_routes(app):
                 else:
                     return render_template("signin.html", message="패스워드가 다릅니다.")
         return redirect(url_for('home'))
+    
+    @app.route("/get-images")
+    def get_images():
+        image_folder = "static/pic"  # 이미지 폴더 경로
+        files = os.listdir(image_folder)  # 폴더 내 파일 목록 가져오기
+        image_files = [f for f in files if f.endswith(('.jpg', '.png', '.jpeg'))]  # 이미지 파일만 필터링
+        return jsonify(image_files)  # JSON 형태로 반환
+
 
     # 로그아웃 기능
     @app.route('/logout')
@@ -167,7 +175,10 @@ def setup_routes(app):
     @app.route('/detail/<int:no>', methods=['GET','POST'])
     def get_event(no):
         event = Event.query.filter_by(no=no).first()
-        return render_template('detail.html', event=event, no=no)
+        if current_user.id:
+            favoritesEvent = mypage.query.filter_by(id=current_user.id).all()
+            favorite_event_names = [fav.my_eventName for fav in favoritesEvent]
+        return render_template('detail.html', event=event, no=no, favoritesEvent=favorite_event_names)
 
     # 이벤트 업로드 페이지
     @app.route('/upload')
@@ -251,5 +262,16 @@ def setup_routes(app):
         # members 테이블에서 id가 존재하는지 확인
         exists = members.query.filter_by(id=user_id).first() is not None
         return jsonify({'exists': exists})
-   
-
+    
+    # 이벤트 검색 후 상세페이지로 이동
+    @app.route('/searchEvent', methods=['POST'])
+    def seachEvent():
+        if request.method == 'POST':
+            searchEvent = request.form['searchEventName']
+            event = Event.query.filter_by(eventName=searchEvent).first()
+            if event:
+                no = event.no
+                return redirect(url_for('get_event', no=no))
+            else:
+                return redirect(url_for('home'))
+        return redirect(url_for('home'))
