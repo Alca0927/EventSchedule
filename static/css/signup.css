@@ -1,11 +1,13 @@
-body{
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 a {
-    color: #191717; /* 기본 링크 색상 */
-    text-decoration: none; /* 밑줄 제거 */
+   color: #191717; /* 기본 링크 색상 */
+   text-decoration: none; /* 밑줄 제거 */
 }
 
 a:visited, a:active{
@@ -16,38 +18,8 @@ a:visited, a:active{
 header{
     background-color:#F1EFEF;
     width: 100%;
-    height: 130px;
+    height: 100px;
     color: #191717;
-    position: relative;
-    top: 0;
-    margin-bottom: 30px;
-}
-header h1{
-    display: flex;
-    padding: 10px;
-    font-size: 65px;
-    margin: 0;
-}
-
-.headerLeft{
-    display: flex;
-    align-items: center;
-    position: absolute;
-    right:10px;
-    bottom: 10px;
-    gap: 10px;
-    font-size: 20px;
-}
-
-.headerLeft div{
-    display: flex;
-    align-items: center;
-}
-
-.home{
-    position: fixed;
-    top: 3%;
-    left: 5%;
 }
 
 footer{
@@ -59,72 +31,72 @@ footer{
     position: fixed;
 }
 
-ul{
-    list-style-type: none;
-    margin: 0;
+#id, #password, #name, #email{
+    width: 200px;
+    height: 30px;
+}
+
+.container {
     display: flex;
-    margin: 0;
-    padding: 0;
-    gap: 10px;
+   flex-direction: column; /* 내부 요소를 세로 배치 */
+   justify-content: center; /* 세로 중앙 정렬 */
+   align-items: center; /* 가로 중앙 정렬 */
+    background-color: #F1EFEF;
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+   transform: translate(-50%, -50%); /* 정중앙 배치 */
+    padding: 20px;
+    border-radius: 10px;
 }
 
-ul li{
-    display: flex;
-    align-items: center;
-}
-
-/* 본문 내용 */
-
-.signupContainer{
-    width: 800px;
-    margin: auto;
-    border: 1px solid #ddd;
-    padding: 0;
-    align-items: center;
-    margin-top: auto;
-    justify-content: center;
-    background-color: #f1efef;
-}
-.signup{
-    text-align: center;
+.signup {
+   position: static; /* 불필요한 fixed 제거 */
     margin-bottom: 20px;
 }
 
-.signupContainer form{
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-.signupContainer form div{
-    padding-left: calc(10%);
-    padding-right: calc(10%);
-    padding-bottom: 10px;
-}
-
-.signupContainer form label, .signupContainer form input, .signupContainer form textarea{
-    display: block;
-    width: 100%;
-    align-items: center;
-    align-content: center;
-}
-
-.signupContainer form input{
-    padding: 5px;
-    margin-top: 5px;
-}
-
-.signupButton{
+#signupForm {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    width: 16%;
-    margin-left: 42%;
-    align-content: center;
+   flex-direction: column; /* 입력 필드를 세로로 정렬 */
     align-items: center;
-    justify-content: center;
-    background-color: #ccc8aa;
+   gap: 10px; /* 입력 필드 간격 추가 */
 }
 
-#checkDupBtn{
-    background-color: #ccc8aa;
+.id-container {
+    display: flex;
+   align-items: center; /* 세로 중앙 정렬 */
+    margin-right: -80px;
+   gap: 10px; /* 입력창과 버튼 사이 간격 */
+   width: 400px; /* 컨테이너 전체 너비 */
+    justify-content: center;
 }
+
+#overlap {
+    height: 34px;
+    padding: 0 10px;
+    background-color: #CCC8AA;
+    border: none;
+    cursor: pointer;
+}
+
+.home{
+    position: fixed;
+    top: 3%;
+    left: 5%;
+}
+
+.menu{
+    position:fixed;
+    top:5%;
+    right:10%;
+    display: flex;
+    list-style: none;
+}
+
+.menu3{
+    position: relative;
+    right: 30%;
+}
+

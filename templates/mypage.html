@@ -9,7 +9,7 @@
 <body>
   <header>
     <!-- 헤더 -->
-    <h1><a href="/" id='home'>홈페이지</a></h1>
+    <h1 class="home"><a href="/">개발의 민족</a></h1>
     <section class="headerLeft">
         <div>
             <form action="searchEvent" method="POST">
@@ -47,7 +47,7 @@
       </div>
       <div class="detail-container">                                <!--디테일 창 컨테이너-->
         
-        <img id="detailImage" src="#" alt="행사 사진" style="width:100%; max-height:200px; object-fit:cover;">
+        <img id="detailImage" src="#" alt="행사 사진" style="width:50%; object-fit:cover;">
         <h2 id="detailEventName">행사 제목</h2>
         <p id="detailLocation">행사 위치</p>
         <p id="detailExplain">행사 설명</p>
@@ -56,9 +56,6 @@
         </form>
       </div>
   </section>
-  <footer>
-    
-  </footer>
   <script>
     // 서버 측에서 전달한 이벤트 데이터를 JSON 문자열로 받아와서 자바스크립트 객체로 변환
     const myEvents = JSON.parse(`{{ events | tojson | safe }}`);

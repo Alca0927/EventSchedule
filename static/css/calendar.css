@@ -18,9 +18,9 @@ a:visited, a:active{
 }
 
 header{
-  background-color:#F1EFEF;
+  background-color:#CCC8AA;
   width: 100%;
-  height: 130px;
+  height: 100px;
   color: #191717;
   position: relative;
   top: 0;
@@ -29,7 +29,6 @@ header{
 header h1{
   display: flex;
   padding: 10px;
-  font-size: 65px;
   margin: 0;
 }
 
@@ -49,9 +48,8 @@ header h1{
 }
 
 .home{
-  position: fixed;
-  top: 3%;
-  left: 5%;
+  padding-left: 30px;
+  padding-top: 20px;
 }
 
 footer{

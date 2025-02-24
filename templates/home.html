@@ -9,16 +9,16 @@
 <body>
     <header>
         <!-- 헤더 -->
-        <h1><a href="/" id='home'>홈페이지</a></h1>
+        <h1 class='home'><a href="/">개발의 민족</a></h1>
         <section class="headerLeft">
-            <div> <!-- 검색 기능 -->
+            <div>
                 <form action="searchEvent" method="POST">
                     <input type="text" id="searchEventName" name="searchEventName">
                     <button type="submit">검색</button>
                 </form>
             </div>
             <div>
-                <ul> <!-- 로그인, 로그아웃, 나의 페이지, 회원가입 -->
+                <ul>
                     <li>{% if session.user_id == 'admit' %} <a href='/upload'>행사 일정 업로드</a>{% else %}{% endif %}</li>
                     <li>{% if session %} {{session.user_id}}님 &nbsp;&nbsp;<a href='/logout'>로그아웃</a> {% else %}<a href="/login">로그인</a> {% endif %} </li>
                     <li>{% if session %} <a href="/mypage">나의 페이지</a> {% else %}<a href="/signup">회원가입</a> {% endif %}</li>
@@ -26,11 +26,13 @@
             </div>
         </section>
     </header>
+
+
     <section class="slider-container">
-        <button class="prev">❮</button> <!-- 이전 전시회 보기 버튼 -->
+        <button class="prev">❮</button>
         <div class="slider-wrapper">
             <div class="slider">
-                {% for event in events %} <!-- 전시회 포스터, 이름 출력 -->
+                {% for event in events %}
                 <div class="eventItem">
                     <a href="/detail/{{ event.no }}">
                         <img src="{{ url_for('static', filename='pic/' + event.image) }}" class="eventImage" alt="{{ event.eventName }}">
@@ -40,7 +42,7 @@
                 {% endfor %}
             </div>
         </div>
-        <button class="next">❯</button> <!-- 이후 전시회 보기 버튼 -->
+        <button class="next">❯</button>
     </section>
 
     <div class="box"></div>

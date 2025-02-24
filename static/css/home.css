@@ -18,18 +18,11 @@ a:visited, a:active {
 header {
     background-color: #CCC8AA;
     width: 100%;
-    height: 130px;
+    height: 100px;
     color: #191717;
     position: relative;
     top: 0;
-    margin-bottom: 30px;
-}
-
-header h1 {
-    display: flex;
-    padding: 10px;
-    font-size: 65px;
-    margin: 0;
+    
 }
 
 .headerLeft {
@@ -90,10 +83,10 @@ ul li {
 .box {
     background-color: rgba(0, 0, 0, 0.5); /* 불투명한 검은색 */
     position: fixed;
-    top: 130px; /* 헤더 높이만큼 띄우기 */
+    top: 100px; /* 헤더 높이만큼 띄우기 */
     left: 0;
     width: 100%;
-    height: calc(100% - 130px); /* 헤더를 제외한 높이 */
+    height: calc(100% - 100px); /* 헤더를 제외한 높이 */
     z-index: 1; /* 슬라이더보다 낮게 설정 */
 }
 
@@ -113,7 +106,7 @@ ul li {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: max-content;
+    height: auto;
     z-index: 10; /* 슬라이더가 .box 위에 오도록 설정 */
 }
 
